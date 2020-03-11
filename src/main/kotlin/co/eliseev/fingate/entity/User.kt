@@ -2,6 +2,7 @@ package co.eliseev.fingate.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -18,7 +19,10 @@ class User(
     private val firstName: String? = null,
 
     @Column(name = "last_name")
-    private val lastName: String? = null
+    private val lastName: String? = null,
+
+    @OneToMany
+    private val accounts: Set<Account> = emptySet()
 
 ) : BaseEntity() {
 
