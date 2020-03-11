@@ -1,6 +1,6 @@
-package co.eliseev.fingate.entity
+package co.eliseev.fingate.model.entity
 
-import co.eliseev.fingate.entity.Account.Companion.TABLE_NAME
+import co.eliseev.fingate.model.entity.Account.Companion.TABLE_NAME
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -15,33 +15,33 @@ import javax.persistence.Table
 class Account(
 
     @ManyToOne
-    private val issuer: User? = null,
+    val issuer: User? = null,
 
     @Column(name = "number")
-    private val number: String,
+    val number: Int,
 
     @Column(name = "expiration_date")
-    private val expirationDate: LocalDateTime,
+    val expirationDate: LocalDateTime,
 
     @Column(name = "cvv")
-    private val cvv: Int,
+    val cvv: Int,
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private val type: CardType,
+    val type: CardType,
 
     @Column(name = "currency")
-    private val currency: String,
+    val currency: String,
 
     @Column(name = "balance")
-    private val balance: BigDecimal,
+    var balance: BigDecimal = 0.toBigDecimal(),
 
     @Column(name = "system")
     @Enumerated(EnumType.STRING)
-    private val system: CardSystem,
+    val system: CardSystem,
 
     @Column(name = "default")
-    private val default: Boolean = false
+    val default: Boolean = false
 
 ) : BaseEntity() {
 

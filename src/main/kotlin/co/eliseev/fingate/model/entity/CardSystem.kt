@@ -1,4 +1,4 @@
-package co.eliseev.fingate.entity
+package co.eliseev.fingate.model.entity
 
 enum class CardSystem {
     MASTER_CARD,

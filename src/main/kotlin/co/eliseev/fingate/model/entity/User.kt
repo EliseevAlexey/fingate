@@ -1,4 +1,4 @@
-package co.eliseev.fingate.entity
+package co.eliseev.fingate.model.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
