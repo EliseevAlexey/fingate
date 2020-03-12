@@ -8,6 +8,8 @@ import co.eliseev.fingate.service.exception.AccountNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
+import java.time.Clock
+import java.time.LocalDate
 
 interface AccountService {
     fun create(accountModel: AccountModel): Account
@@ -19,12 +21,20 @@ interface AccountService {
 @Service
 class AccountServiceImpl(
     private val accountRepository: AccountRepository,
-    private val securityService: SecurityService
+    private val securityService: SecurityService,
+    private val accountFeeService: AccountFeeService,
+    private val clock: Clock
 ) : AccountService {
 
     override fun create(accountModel: AccountModel): Account =
-        accountModel.toEntity(getCurrentUser())
-            .let { accountRepository.save(it) }
+        accountModel.toEntity(getCurrentUser(), LocalDate.now(clock)).let { account ->
+            accountFeeService.applyFee(account)
+            accountRepository.save(account).also {
+                notifyNewAccountCreation()
+            }
+        }
+
+    private fun notifyNewAccountCreation() {} // TODO
 
     @Transactional
     override fun delete(accountId: Long): Boolean = // TODO check delete rights

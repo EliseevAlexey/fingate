@@ -2,6 +2,7 @@ package co.eliseev.fingate.model.entity
 
 import co.eliseev.fingate.model.entity.Account.Companion.TABLE_NAME
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -12,16 +13,16 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = TABLE_NAME)
-class Account(
+data class Account(
 
     @ManyToOne
-    val issuer: User? = null,
+    val issuer: User? = null, // FIXME Bank
 
     @Column(name = "number")
-    val number: Int,
+    val number: Long,
 
-    @Column(name = "expiration_date")
-    val expirationDate: LocalDateTime,
+    @Column(name = "expiration_date_time")
+    val expirationDateTime: LocalDateTime,
 
     @Column(name = "cvv")
     val cvv: Int,
@@ -41,7 +42,17 @@ class Account(
     val system: CardSystem,
 
     @Column(name = "default")
-    val default: Boolean = false
+    val default: Boolean = false,
+
+    @Column(name = "registration_date")
+    val registrationDate: LocalDate,
+
+    @Column(name = "fee_frequency")
+    @Enumerated(EnumType.STRING)
+    val feeFrequency: FeeFrequency,
+
+    @ManyToOne
+    var accountFee: AccountFee? = null
 
 ) : BaseEntity() {
 

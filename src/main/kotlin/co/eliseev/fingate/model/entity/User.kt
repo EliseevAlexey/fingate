@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = User.TABLE_NAME)
-class User(
+data class User(
 
     @Column(name = "email", nullable = false)
     private val email: String,

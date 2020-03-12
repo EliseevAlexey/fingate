@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface AccountRepository : JpaRepository<Account, Long>{
     fun getAllByIssuer(issuer: User): List<Account>
+    fun countAllByIssuer(issuer: User): Long
 }

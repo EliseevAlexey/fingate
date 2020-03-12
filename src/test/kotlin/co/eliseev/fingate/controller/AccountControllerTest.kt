@@ -5,10 +5,11 @@ import co.eliseev.fingate.model.converter.toModel
 import co.eliseev.fingate.model.dto.AccountDto
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.CardType
+import co.eliseev.fingate.model.entity.FeeFrequency
 import co.eliseev.fingate.model.entity.User
 import co.eliseev.fingate.service.AccountService
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nhaarman.mockito_kotlin.atLeastOnce
+import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Test
@@ -21,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import java.time.Clock
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @WebMvcTest(controllers = [AccountController::class])
@@ -44,18 +47,19 @@ internal class AccountControllerTest {
             cvv = 999,
             expirationDate = LocalDateTime.now(),
             system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT
+            type = CardType.CREDIT,
+            feeFrequency = FeeFrequency.MONTHLY
         )
         val accountModel = accountDto.toModel()
         val user = User("someEmail", "somePassword").apply { id = 1L }
-        val account = accountModel.toEntity(user)
+        val account = accountModel.toEntity(user, LocalDate.now(clock))
         whenever(accountService.create(accountModel)).thenReturn(account)
 
         mockMvc.post(ACCOUNTS_PATH) {
             contentType = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(accountDto)
         }.andExpect { status { isOk } }
-        verify(accountService, atLeastOnce()).create(accountModel)
+        verify(accountService, times(1)).create(accountModel)
     }
 
     @Test
@@ -64,18 +68,19 @@ internal class AccountControllerTest {
 
         mockMvc.delete("$ACCOUNTS_PATH/${accountId}")
             .andExpect { status { isOk } }
-        verify(accountService, atLeastOnce()).delete(accountId)
+        verify(accountService, times(1)).delete(accountId)
     }
 
     @Test
     fun testGetAll() {
         mockMvc.get(ACCOUNTS_PATH)
             .andExpect { status { isOk } }
-        verify(accountService, atLeastOnce()).getAll()
+        verify(accountService, times(1)).getAll()
     }
 
     companion object {
         private const val ACCOUNTS_PATH = "/accounts"
+        private val clock = Clock.systemDefaultZone()
     }
 
 }
