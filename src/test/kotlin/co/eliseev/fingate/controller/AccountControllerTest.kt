@@ -65,7 +65,6 @@ internal class AccountControllerTest {
     @Test
     fun testDelete() {
         val accountId = 1L
-
         mockMvc.delete("$ACCOUNTS_PATH/${accountId}")
             .andExpect { status { isOk } }
         verify(accountService, times(1)).delete(accountId)

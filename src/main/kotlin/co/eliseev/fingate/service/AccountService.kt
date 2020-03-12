@@ -38,9 +38,10 @@ class AccountServiceImpl(
 
     @Transactional
     override fun delete(accountId: Long): Boolean = // TODO check delete rights
-        getOne(accountId)
-            .also { accountRepository.delete(it) }
-            .let { true }
+        getOne(accountId).let {
+            accountRepository.delete(it)
+            true
+        }
 
     override fun getAll(): List<Account> = accountRepository.getAllByIssuer(getCurrentUser())
 
