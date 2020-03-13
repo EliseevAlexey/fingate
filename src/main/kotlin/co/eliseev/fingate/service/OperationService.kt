@@ -6,6 +6,7 @@ import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.OperationType
 import co.eliseev.fingate.repository.OperationRepository
+import co.eliseev.fingate.service.exception.OperationNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
@@ -49,8 +50,18 @@ class OperationServiceImpl(
 
     override fun getHistoryData(): List<Operation> = operationRepository.findHistoryData()
 
+    @Transactional
     override fun reject(operationId: Long): Operation {
-        TODO("Not yet implemented")
+        getOne(operationId)
+            .let {
+                operationProcessor.reject(it)
+                return it
+            }
+    }
+
+    private fun getOne(operationId: Long): Operation {
+        return operationRepository.findById(operationId)
+            .orElseThrow { OperationNotFoundException("Operation with id '$operationId' not found") }
     }
 
 }
