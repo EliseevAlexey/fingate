@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 interface PaymentCategoryService {
-    fun getAll(): List<PaymentCategory>
     fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory
+    fun get(paymentCategoryId: Long): PaymentCategory
     fun delete(paymentCategoryId: Long): Boolean
+    fun getAll(): List<PaymentCategory>
 }
 
 @Service
@@ -21,12 +22,12 @@ class PaymentCategoryServiceImpl(
     private val paymentCategoryRepository: PaymentCategoryRepository
 ) : PaymentCategoryService {
 
-    override fun getAll(): List<PaymentCategory> = paymentCategoryRepository.findAll()
-
     override fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory =
         paymentCategoryModel.toEntity().also {
             save(it)
         }
+
+    override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
 
     private fun save(paymentCategory: PaymentCategory): PaymentCategory {
         try {
@@ -42,6 +43,8 @@ class PaymentCategoryServiceImpl(
             paymentCategoryRepository.delete(it)
             true
         }
+
+    override fun getAll(): List<PaymentCategory> = paymentCategoryRepository.findAll()
 
     private fun getOne(paymentCategoryId: Long): PaymentCategory = paymentCategoryRepository.findById(paymentCategoryId)
         .orElseThrow { PaymentCategoryNotFoundException("Payment category by id '$paymentCategoryId' not found") }

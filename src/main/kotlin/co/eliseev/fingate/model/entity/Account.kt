@@ -13,10 +13,11 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = TABLE_NAME)
-data class Account(
+data class Account( // TODO rename to BankAccount
 
     @ManyToOne
     val issuer: User? = null, // FIXME Bank
+    // TODO add holder
 
     @Column(name = "number")
     val number: Long,

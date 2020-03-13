@@ -13,6 +13,7 @@ import java.time.LocalDate
 
 interface AccountService {
     fun create(accountModel: AccountModel): Account
+    fun get(accountId: Long): Account
     fun delete(accountId: Long): Boolean
     fun getAll(): List<Account>
     fun setBalance(balance: BigDecimal, accountId: Long): Account
@@ -35,6 +36,8 @@ class AccountServiceImpl(
         }
 
     private fun notifyNewAccountCreation() {} // TODO
+
+    override fun get(accountId: Long): Account = getOne(accountId)
 
     @Transactional
     override fun delete(accountId: Long): Boolean = // TODO check delete rights
