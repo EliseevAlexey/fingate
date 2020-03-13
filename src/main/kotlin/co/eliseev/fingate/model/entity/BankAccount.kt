@@ -53,7 +53,10 @@ data class BankAccount(
     val feeFrequency: FeeFrequency,
 
     @ManyToOne
-    var accountFee: AccountFee? = null
+    var accountFee: AccountFee? = null,
+
+    @ManyToOne
+    var user: User? = null
 
 ) : BaseEntity() {
 

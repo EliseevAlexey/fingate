@@ -6,6 +6,7 @@ import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.PaymentCategory
+import co.eliseev.fingate.model.entity.User
 import java.time.LocalDateTime
 
 fun OperationModel.toEntity(

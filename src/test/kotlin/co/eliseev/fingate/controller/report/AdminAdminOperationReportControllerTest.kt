@@ -1,4 +1,4 @@
-package co.eliseev.fingate.controller
+package co.eliseev.fingate.controller.report
 
 import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
@@ -8,7 +8,7 @@ import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.OperationType
 import co.eliseev.fingate.model.entity.PaymentCategory
-import co.eliseev.fingate.service.OperationReport
+import co.eliseev.fingate.service.report.AdminOperationReport
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -21,14 +21,14 @@ import org.springframework.test.web.servlet.get
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@WebMvcTest(controllers = [OperationReportController::class])
-internal class OperationReportControllerTest {
+@WebMvcTest(controllers = [AdminOperationReportController::class])
+internal class AdminAdminOperationReportControllerTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var operationReport: OperationReport
+    private lateinit var adminOperationReport: AdminOperationReport
 
     @Test
     fun testGetAllYTD() {
@@ -41,10 +41,10 @@ internal class OperationReportControllerTest {
             paymentCategory = testPaymentCategory,
             withdrawServiceName = "testWithdrawServiceName"
         )
-        whenever(operationReport.getAllYTD()).thenReturn(listOf(operation))
+        whenever(adminOperationReport.getAllYTD()).thenReturn(listOf(operation))
         mockMvc.get("$OPERATION_REPORTS_PATH/ytd")
             .andExpect { status { isOk } }
-        verify(operationReport, times(1)).getAllYTD()
+        verify(adminOperationReport, times(1)).getAllYTD()
     }
 
     companion object {

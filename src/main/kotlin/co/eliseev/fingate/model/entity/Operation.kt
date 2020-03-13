@@ -32,7 +32,10 @@ data class Operation(
 
     @Column(name = "operation_status")
     @Enumerated(EnumType.STRING)
-    var operationStatus: OperationStatus
+    var operationStatus: OperationStatus,
+
+    @ManyToOne
+    var user: User? = null
 
 ) : BaseEntity() {
     companion object {

@@ -1,4 +1,4 @@
-package co.eliseev.fingate.service
+package co.eliseev.fingate.service.report
 
 import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
@@ -8,7 +8,7 @@ import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.OperationType
 import co.eliseev.fingate.model.entity.PaymentCategory
-import co.eliseev.fingate.repository.OperationReportRepository
+import co.eliseev.fingate.repository.report.AdminOperationReportRepository
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
@@ -21,17 +21,20 @@ import java.time.LocalDateTime
 import java.time.Year
 import java.time.ZoneId
 
-internal class OperationReportImplTest {
+internal class AdminOperationReportImplTest {
 
-    private val operationReportRepository = mock<OperationReportRepository>()
+    private val operationReportRepository = mock<AdminOperationReportRepository>()
     private val clock = mock<Clock>()
-    private lateinit var operationReport: OperationReport
+    private lateinit var adminOperationReport: AdminOperationReport
 
 
     @BeforeEach
     fun reset() {
         reset(operationReportRepository, clock)
-        operationReport = OperationReportImpl(operationReportRepository, clock)
+        adminOperationReport = AdminOperationReportImpl(
+            operationReportRepository,
+            clock
+        )
     }
 
     @Test
@@ -47,10 +50,10 @@ internal class OperationReportImplTest {
         )
         val expected = listOf(operation)
         prepareClock()
-        val firstYearDay = Year.now(fixedClock).atDay(1)
+        val firstYearDay = Year.now(fixedClock).atDay(1).atStartOfDay()
         whenever(operationReportRepository.findAllYTD(firstYearDay)).thenReturn(expected)
 
-        val actual = operationReport.getAllYTD()
+        val actual = adminOperationReport.getAllYTD()
         assertEquals(expected, actual)
     }
 

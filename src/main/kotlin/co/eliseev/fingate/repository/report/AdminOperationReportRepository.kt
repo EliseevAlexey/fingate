@@ -1,11 +1,11 @@
-package co.eliseev.fingate.repository
+package co.eliseev.fingate.repository.report
 
 import co.eliseev.fingate.model.entity.Operation
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import java.time.LocalDate
+import java.time.LocalDateTime
 
-interface OperationReportRepository : JpaRepository<Operation, Long> {
+interface AdminOperationReportRepository : JpaRepository<Operation, Long> {
     @Query(
         """
             SELECT o
@@ -13,5 +13,5 @@ interface OperationReportRepository : JpaRepository<Operation, Long> {
             WHERE o.paymentDateTime >= :date
         """
     )
-    fun findAllYTD(date: LocalDate): List<Operation>
+    fun findAllYTD(date: LocalDateTime): List<Operation>
 }
