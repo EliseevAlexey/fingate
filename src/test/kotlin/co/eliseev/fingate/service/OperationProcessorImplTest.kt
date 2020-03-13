@@ -45,4 +45,14 @@ internal class OperationProcessorImplTest {
         operationProcessor.processAndChangeStatus(operation)
     }
 
+    @Test
+    fun `test reject withdraw operation`(){
+        // TODO
+    }
+
+    @Test
+    fun `test reject fund operation`() {
+        // TODO
+    }
+
 }

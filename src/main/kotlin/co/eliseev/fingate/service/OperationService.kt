@@ -15,6 +15,7 @@ interface OperationService {
     fun create(operationModel: OperationModel): Operation
     fun getAllByOperationType(operationType: OperationType): List<Operation>
     fun getHistoryData(): List<Operation>
+    fun reject(operationId: Long): Operation
 }
 
 @Service
@@ -47,5 +48,9 @@ class OperationServiceImpl(
         operationRepository.findAllByOperationType(operationType)
 
     override fun getHistoryData(): List<Operation> = operationRepository.findHistoryData()
+
+    override fun reject(operationId: Long): Operation {
+        TODO("Not yet implemented")
+    }
 
 }

@@ -7,6 +7,7 @@ import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.CardType
 import co.eliseev.fingate.model.entity.FeeFrequency
+import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.OperationType
 import co.eliseev.fingate.model.entity.PaymentCategory
@@ -24,6 +25,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.put
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -40,7 +42,7 @@ internal class OperationControllerTest {
     private lateinit var operationService: OperationService
 
     @Test
-    fun create() {
+    fun testCreateOperation() {
         val operationDto = OperationDto(
             withdrawServiceName = "SomeService",
             paymentCategoryId = 1L,
@@ -48,21 +50,11 @@ internal class OperationControllerTest {
             accountId = 1L,
             operationType = OperationType.WITHDRAW
         )
-        val account = BankAccount(
-            number = 9990,
-            currency = "USD",
-            cvv = 999,
-            expirationDateTime = LocalDateTime.now(),
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
-            feeFrequency = FeeFrequency.MONTHLY,
-            registrationDate = LocalDate.now()
-        ).apply { id = 1L }
         val operationModel = operationDto.toModel()
         val operation = operationModel.toEntity(
-            bankAccount = account,
+            bankAccount = testBankAccount,
             operationStatus = OperationStatus.PROCESSED,
-            paymentCategory = PaymentCategory(name = "testName").apply { id = 1L },
+            paymentCategory = testPaymentCategory,
             paymentDateTime = LocalDateTime.now()
         )
         whenever(operationService.create(operationModel)).thenReturn(operation)
@@ -75,14 +67,45 @@ internal class OperationControllerTest {
     }
 
     @Test
-    fun getAllByOperationType() {
+    fun testGetAllByOperationType() {
         val operationType = OperationType.WITHDRAW
         mockMvn.get("$OPERATIONS_PATH?operationType=$operationType")
             .andExpect { status { isOk } }
         verify(operationService, times(1)).getAllByOperationType(operationType)
     }
 
+    @Test
+    fun testReject() {
+        val operationId = 1L
+
+        val operation = Operation(
+            bankAccount = testBankAccount,
+            operationStatus = OperationStatus.REJECTED,
+            operationType = OperationType.WITHDRAW,
+            paymentAmount = 100.toBigDecimal(),
+            paymentCategory = testPaymentCategory,
+            paymentDateTime = LocalDateTime.now(),
+            withdrawServiceName = "testWithdrawServiceName"
+        )
+        whenever(operationService.reject(operationId)).thenReturn(operation)
+        mockMvn.put("$OPERATIONS_PATH/$operationId/reject")
+            .andExpect { status { isOk } }
+        verify(operationService, times(1)).reject(operationId)
+    }
+
     companion object {
         private const val OPERATIONS_PATH = "/operations"
+        private val testBankAccount = BankAccount(
+            number = 9990,
+            currency = "USD",
+            cvv = 999,
+            expirationDateTime = LocalDateTime.now(),
+            system = CardSystem.MASTER_CARD,
+            type = CardType.CREDIT,
+            feeFrequency = FeeFrequency.MONTHLY,
+            registrationDate = LocalDate.now()
+        ).apply { id = 1L }
+        private val testPaymentCategory = PaymentCategory(name = "testName").apply { id = 1L }
     }
+
 }
