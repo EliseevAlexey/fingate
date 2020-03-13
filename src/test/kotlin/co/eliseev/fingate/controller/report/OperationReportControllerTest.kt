@@ -20,10 +20,18 @@ internal class OperationReportControllerTest {
     private lateinit var operationReport: OperationReport
 
     @Test
-    fun getAllYtd() {
+    fun testGetAllYtd() {
         mockMvc.get("/reports/ytd")
             .andExpect { status { isOk } }
         verify(operationReport, times(1)).getAllYtd()
+    }
+
+
+    @Test
+    fun testGetRejectedOperations() {
+        mockMvc.get("/reports/rejected")
+            .andExpect { status { isOk } }
+        verify(operationReport, times(1)).getRejectedOperations()
     }
 
 }

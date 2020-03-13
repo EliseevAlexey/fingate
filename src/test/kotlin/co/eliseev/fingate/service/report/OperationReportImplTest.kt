@@ -9,4 +9,9 @@ internal class OperationReportImplTest {
         // TODO
     }
 
+    @Test
+    fun getRejectedOperations(){
+        // TODO
+    }
+
 }

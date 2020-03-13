@@ -17,6 +17,7 @@ import java.time.Year
 
 interface OperationReport {
     fun getAllYtd(): List<AccountReportDto> // TODO model then in controller Dto
+    fun getRejectedOperations(): List<Operation>
 }
 
 @Component
@@ -27,7 +28,7 @@ class OperationReportImpl(
     private val clock: Clock
 ) : OperationReport {
 
-    override fun getAllYtd(): List<AccountReportDto> {
+    override fun getAllYtd(): List<AccountReportDto> { // TODO add specified period
         val allOperations = getBankIdByOperations()
         return accountService.getAll().map { bankAccount ->
             createReportData(allOperations, bankAccount)
@@ -72,5 +73,7 @@ class OperationReportImpl(
     }
 
     private fun getFirstDayOfCurrentYear(): LocalDateTime = Year.now(clock).atDay(1).atStartOfDay()
+
+    override fun getRejectedOperations(): List<Operation> = operationReportRepository.getRejectedOperations()
 
 }
