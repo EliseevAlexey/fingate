@@ -3,7 +3,7 @@ package co.eliseev.fingate.controller
 import co.eliseev.fingate.model.converter.toEntity
 import co.eliseev.fingate.model.converter.toModel
 import co.eliseev.fingate.model.dto.OperationDto
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.CardType
 import co.eliseev.fingate.model.entity.FeeFrequency
@@ -48,7 +48,7 @@ internal class OperationControllerTest {
             accountId = 1L,
             operationType = OperationType.WITHDRAW
         )
-        val account = Account(
+        val account = BankAccount(
             number = 9990,
             currency = "USD",
             cvv = 999,
@@ -60,7 +60,7 @@ internal class OperationControllerTest {
         ).apply { id = 1L }
         val operationModel = operationDto.toModel()
         val operation = operationModel.toEntity(
-            account = account,
+            bankAccount = account,
             operationStatus = OperationStatus.PROCESSED,
             paymentCategory = PaymentCategory(name = "testName").apply { id = 1L },
             paymentDateTime = LocalDateTime.now()

@@ -32,7 +32,7 @@ class OperationProcessorImpl : OperationProcessor {
 
     private fun tryToWithdrawAndChangeStatus(operation: Operation) {
         val payment = operation.paymentAmount
-        val balance = operation.account.balance
+        val balance = operation.bankAccount.balance
         when {
             balance >= payment -> withdrawAndSetProcessedStatus(operation)
             else -> setRejectStatus(operation)
@@ -40,16 +40,17 @@ class OperationProcessorImpl : OperationProcessor {
     }
 
     private fun withdrawAndSetProcessedStatus(operation: Operation) {
-        operation.account.balance -= operation.paymentAmount
+        operation.bankAccount.balance -= operation.paymentAmount
         operation.operationStatus = OperationStatus.PROCESSED
     }
 
     private fun setRejectStatus(operation: Operation) {
         operation.operationStatus = OperationStatus.REJECTED
+        // TODO notify client
     }
 
     private fun fundAndSetProcessedStatus(operation: Operation) {
-        operation.account.balance += operation.paymentAmount
+        operation.bankAccount.balance += operation.paymentAmount
         operation.operationStatus = OperationStatus.PROCESSED
     }
 

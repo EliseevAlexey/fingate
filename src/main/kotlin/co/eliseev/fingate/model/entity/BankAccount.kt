@@ -1,6 +1,6 @@
 package co.eliseev.fingate.model.entity
 
-import co.eliseev.fingate.model.entity.Account.Companion.TABLE_NAME
+import co.eliseev.fingate.model.entity.BankAccount.Companion.TABLE_NAME
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = TABLE_NAME)
-data class Account( // TODO rename to BankAccount
+data class BankAccount(
 
     @ManyToOne
     val issuer: User? = null, // FIXME Bank
@@ -58,7 +58,7 @@ data class Account( // TODO rename to BankAccount
 ) : BaseEntity() {
 
     companion object {
-        const val TABLE_NAME = "accounts"
+        const val TABLE_NAME = "bank_accounts"
     }
 
 }

@@ -27,4 +27,7 @@ class OperationController(private val operationService: OperationService) {
     fun getAllByOperationType(@RequestParam("operationType") operationType: OperationType): List<OperationDto> =
         operationService.getAllByOperationType(operationType).toDto()
 
+    @GetMapping("/history")
+    fun getHistoryData(): List<OperationDto> = operationService.getHistoryData().toDto()
+
 }

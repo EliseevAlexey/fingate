@@ -2,7 +2,7 @@ package co.eliseev.fingate.model.converter
 
 import co.eliseev.fingate.model.OperationModel
 import co.eliseev.fingate.model.dto.OperationDto
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.PaymentCategory
@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 fun OperationModel.toEntity(
     paymentDateTime: LocalDateTime,
-    account: Account,
+    bankAccount: BankAccount,
     operationStatus: OperationStatus,
     paymentCategory: PaymentCategory
 ) = Operation(
@@ -18,7 +18,7 @@ fun OperationModel.toEntity(
     paymentCategory = paymentCategory,
     paymentAmount = this.paymentAmount,
     paymentDateTime = paymentDateTime,
-    account = account,
+    bankAccount = bankAccount,
     operationType = this.operationType,
     operationStatus = operationStatus
 )
@@ -39,7 +39,7 @@ fun Operation.toDto() =
         paymentCategoryId = this.paymentCategory.id!!,
         paymentAmount = this.paymentAmount,
         paymentDateTime = this.paymentDateTime,
-        accountId = this.account.id!!,
+        accountId = this.bankAccount.id!!,
         operationType = this.operationType,
         operationStatus = this.operationStatus
     )

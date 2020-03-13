@@ -1,7 +1,7 @@
 package co.eliseev.fingate.service
 
 import co.eliseev.fingate.model.AccountModel
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.CardType
 import co.eliseev.fingate.model.entity.FeeFrequency
@@ -26,7 +26,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Optional
 
-internal class AccountServiceImplTest {
+internal class BankAccountServiceImplTest {
 
     private val accountRepository = mock<AccountRepository>()
     private val securityService = mock<SecurityService>()
@@ -52,7 +52,7 @@ internal class AccountServiceImplTest {
             type = CardType.CREDIT,
             feeFrequency = FeeFrequency.YEARLY
         )
-        val expected = Account(
+        val expected = BankAccount(
             number = accountModel.number,
             currency = accountModel.currency,
             cvv = accountModel.cvv,
@@ -62,7 +62,7 @@ internal class AccountServiceImplTest {
             feeFrequency = FeeFrequency.YEARLY,
             registrationDate = LocalDate.now()
         )
-        whenever(accountRepository.save(any<Account>())).thenReturn(expected)
+        whenever(accountRepository.save(any<BankAccount>())).thenReturn(expected)
         val testDate = LocalDate.of(2020, 3, 12)
         whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(testDate.toEpochDay()))
         mockUser()
@@ -124,7 +124,7 @@ internal class AccountServiceImplTest {
 
     companion object {
         private val testUser = User("testEmail", "testPassword").apply { id = 1 }
-        private val testAccount = Account(
+        private val testAccount = BankAccount(
             number = 9990,
             currency = "USD",
             cvv = 999,

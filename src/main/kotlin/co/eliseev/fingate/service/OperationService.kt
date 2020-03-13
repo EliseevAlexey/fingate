@@ -2,8 +2,6 @@ package co.eliseev.fingate.service
 
 import co.eliseev.fingate.model.OperationModel
 import co.eliseev.fingate.model.converter.toEntity
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
 import co.eliseev.fingate.model.entity.Operation
 import co.eliseev.fingate.model.entity.OperationStatus
 import co.eliseev.fingate.model.entity.OperationType
@@ -11,19 +9,12 @@ import co.eliseev.fingate.repository.OperationRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface OperationService {
     fun create(operationModel: OperationModel): Operation
     fun getAllByOperationType(operationType: OperationType): List<Operation>
-    fun getAllGroupBy( // TODO
-        cardType: CardType,
-        cardSystem: CardSystem,
-        operationType: OperationType,
-        from: LocalDate,
-        to: LocalDate
-    )
+    fun getHistoryData(): List<Operation>
 }
 
 @Service
@@ -45,7 +36,7 @@ class OperationServiceImpl(
     private fun toEntity(operationModel: OperationModel): Operation =
         operationModel.toEntity(
             paymentDateTime = LocalDateTime.now(clock),
-            account = getAccount(operationModel),
+            bankAccount = getAccount(operationModel),
             operationStatus = OperationStatus.NEW,
             paymentCategory = paymentCategoryService.get(operationModel.paymentCategoryId)
         )
@@ -55,13 +46,6 @@ class OperationServiceImpl(
     override fun getAllByOperationType(operationType: OperationType): List<Operation> =
         operationRepository.findAllByOperationType(operationType)
 
-    override fun getAllGroupBy(
-        cardType: CardType,
-        cardSystem: CardSystem,
-        operationType: OperationType,
-        from: LocalDate,
-        to: LocalDate
-    ) {
-        TODO("Not yet implemented")
-    }
+    override fun getHistoryData(): List<Operation> = operationRepository.findHistoryData()
+
 }

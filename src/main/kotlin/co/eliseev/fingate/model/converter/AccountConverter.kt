@@ -2,12 +2,12 @@ package co.eliseev.fingate.model.converter
 
 import co.eliseev.fingate.model.AccountModel
 import co.eliseev.fingate.model.dto.AccountDto
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.User
 import java.time.LocalDate
 
 fun AccountModel.toEntity(issuer: User, registrationDate: LocalDate) =
-    Account(
+    BankAccount(
         issuer = issuer,
         number = this.number,
         expirationDateTime = this.expirationDate,
@@ -31,7 +31,7 @@ fun AccountDto.toModel() =
         registrationDate = this.registrationDate
     )
 
-fun Account.toDto() =
+fun BankAccount.toDto() =
     AccountDto(
         id = this.id,
         number = this.number,
@@ -46,4 +46,4 @@ fun Account.toDto() =
         accountFeeDto = this.accountFee?.toDto()
     )
 
-fun List<Account>.toDto() = this.map { it.toDto() }
+fun List<BankAccount>.toDto() = this.map { it.toDto() }

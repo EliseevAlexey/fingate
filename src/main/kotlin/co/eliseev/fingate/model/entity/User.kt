@@ -22,7 +22,7 @@ data class User(
     private val lastName: String? = null,
 
     @OneToMany
-    private val accounts: Set<Account> = emptySet()
+    private val bankAccounts: Set<BankAccount> = emptySet()
 
 ) : BaseEntity() {
 

@@ -1,6 +1,6 @@
 package co.eliseev.fingate.controller.internal
 
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.CardType
 import co.eliseev.fingate.model.entity.FeeFrequency
@@ -30,7 +30,7 @@ internal class BalanceSetterControllerTest {
     fun testSetBalanceToAccount() {
         val accountId = 1L
         val balance = 100.toBigDecimal()
-        val account = Account(
+        val account = BankAccount(
             currency = "USD",
             number = 9990,
             cvv = 999,

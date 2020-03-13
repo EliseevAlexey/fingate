@@ -1,6 +1,6 @@
 package co.eliseev.fingate.service
 
-import co.eliseev.fingate.model.entity.Account
+import co.eliseev.fingate.model.entity.BankAccount
 import co.eliseev.fingate.model.entity.CardSystem
 import co.eliseev.fingate.model.entity.FeeFrequency
 import co.eliseev.fingate.repository.AccountFeeRepository
@@ -9,7 +9,7 @@ import co.eliseev.fingate.service.exception.AccountFeeNotFoundException
 import org.springframework.stereotype.Service
 
 interface AccountFeeService {
-    fun applyFee(account: Account)
+    fun applyFee(bankAccount: BankAccount)
 }
 
 @Service
@@ -18,16 +18,16 @@ class AccountFeeServiceImpl(
     private val accountRepository: AccountRepository // FIXME call service
 ) : AccountFeeService {
 
-    override fun applyFee(account: Account) {
-        if (countCurrentAccounts(account) > FEE_THRESHOLD) {
-            setFee(account)
+    override fun applyFee(bankAccount: BankAccount) {
+        if (countCurrentAccounts(bankAccount) > FEE_THRESHOLD) {
+            setFee(bankAccount)
         }
     }
 
-    private fun countCurrentAccounts(account: Account): Long = accountRepository.countAllByIssuer(account.issuer!!) // FIXME find by users
+    private fun countCurrentAccounts(bankAccount: BankAccount): Long = accountRepository.countAllByIssuer(bankAccount.issuer!!) // FIXME find by users
 
-    private fun setFee(account: Account) {
-        account.accountFee = getFee(account.system, account.feeFrequency)
+    private fun setFee(bankAccount: BankAccount) {
+        bankAccount.accountFee = getFee(bankAccount.system, bankAccount.feeFrequency)
     }
 
     private fun getFee(system: CardSystem, feeFrequency: FeeFrequency) =

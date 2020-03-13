@@ -24,7 +24,7 @@ data class Operation(
     val paymentDateTime: LocalDateTime,
 
     @ManyToOne
-    val account: Account,
+    val bankAccount: BankAccount,
 
     @Column(name = "operation_type")
     @Enumerated(EnumType.STRING)

@@ -27,7 +27,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @WebMvcTest(controllers = [AccountController::class])
-internal class AccountControllerTest {
+internal class BankAccountControllerTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
