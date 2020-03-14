@@ -1,9 +1,11 @@
 package co.eliseev.fingate.service
 
-import co.eliseev.fingate.model.PaymentCategoryModel
-import co.eliseev.fingate.model.converter.toEntity
-import co.eliseev.fingate.model.entity.PaymentCategory
-import co.eliseev.fingate.repository.PaymentCategoryRepository
+import co.eliseev.fingate.core.model.PaymentCategoryModel
+import co.eliseev.fingate.core.model.converter.toEntity
+import co.eliseev.fingate.core.model.entity.PaymentCategory
+import co.eliseev.fingate.core.repository.PaymentCategoryRepository
+import co.eliseev.fingate.core.service.PaymentCategoryService
+import co.eliseev.fingate.core.service.PaymentCategoryServiceImpl
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.times
@@ -24,7 +26,8 @@ internal class PaymentCategoryServiceImplTest {
     @BeforeEach
     fun resetMock() {
         reset(paymentCategoryRepository)
-        paymentCategoryService = PaymentCategoryServiceImpl(paymentCategoryRepository)
+        paymentCategoryService =
+            PaymentCategoryServiceImpl(paymentCategoryRepository)
     }
 
     @Test

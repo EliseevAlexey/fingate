@@ -1,13 +1,14 @@
 package co.eliseev.fingate.controller
 
-import co.eliseev.fingate.model.converter.toEntity
-import co.eliseev.fingate.model.converter.toModel
-import co.eliseev.fingate.model.dto.AccountDto
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
-import co.eliseev.fingate.model.entity.FeeFrequency
-import co.eliseev.fingate.model.entity.User
-import co.eliseev.fingate.service.AccountService
+import co.eliseev.fingate.core.controller.AccountController
+import co.eliseev.fingate.core.model.converter.toEntity
+import co.eliseev.fingate.core.model.converter.toModel
+import co.eliseev.fingate.core.model.dto.AccountDto
+import co.eliseev.fingate.core.model.entity.CardSystem
+import co.eliseev.fingate.core.model.entity.CardType
+import co.eliseev.fingate.core.model.entity.FeeFrequency
+import co.eliseev.fingate.core.model.entity.User
+import co.eliseev.fingate.core.service.AccountService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify

@@ -1,6 +1,7 @@
 package co.eliseev.fingate.controller.report
 
-import co.eliseev.fingate.service.report.OperationReport
+import co.eliseev.fingate.report.controller.OperationReportController
+import co.eliseev.fingate.report.service.OperationReport
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.jupiter.api.Test

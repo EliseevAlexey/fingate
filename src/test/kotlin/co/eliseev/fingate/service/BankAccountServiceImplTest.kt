@@ -1,13 +1,17 @@
 package co.eliseev.fingate.service
 
-import co.eliseev.fingate.model.AccountModel
-import co.eliseev.fingate.model.entity.BankAccount
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
-import co.eliseev.fingate.model.entity.FeeFrequency
-import co.eliseev.fingate.model.entity.User
-import co.eliseev.fingate.repository.AccountRepository
-import co.eliseev.fingate.service.exception.AccountNotFoundException
+import co.eliseev.fingate.core.model.AccountModel
+import co.eliseev.fingate.core.model.entity.BankAccount
+import co.eliseev.fingate.core.model.entity.CardSystem
+import co.eliseev.fingate.core.model.entity.CardType
+import co.eliseev.fingate.core.model.entity.FeeFrequency
+import co.eliseev.fingate.core.model.entity.User
+import co.eliseev.fingate.core.repository.AccountRepository
+import co.eliseev.fingate.core.service.AccountFeeService
+import co.eliseev.fingate.core.service.AccountService
+import co.eliseev.fingate.core.service.AccountServiceImpl
+import co.eliseev.fingate.core.service.SecurityService
+import co.eliseev.fingate.core.service.exception.AccountNotFoundException
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
@@ -37,7 +41,12 @@ internal class BankAccountServiceImplTest {
     @BeforeEach
     fun reset() {
         reset(accountRepository, securityService, accountFeeChecker, clock)
-        accountService = AccountServiceImpl(accountRepository, securityService, accountFeeChecker, clock)
+        accountService = AccountServiceImpl(
+            accountRepository,
+            securityService,
+            accountFeeChecker,
+            clock
+        )
     }
 
     @Test

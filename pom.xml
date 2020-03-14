@@ -21,6 +21,9 @@
         <!-- Utils -->
         <swagger.version>2.9.2</swagger.version>
 
+        <!-- AOP -->
+        <aspectj.version>1.9.5</aspectj.version>
+
         <!-- Test -->
         <mockito-kotlin.version>1.6.0</mockito-kotlin.version>
     </properties>
@@ -66,6 +69,18 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <!-- Testing -->

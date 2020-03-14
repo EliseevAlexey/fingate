@@ -1,10 +1,11 @@
 package co.eliseev.fingate.controller.internal
 
-import co.eliseev.fingate.model.entity.BankAccount
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
-import co.eliseev.fingate.model.entity.FeeFrequency
-import co.eliseev.fingate.service.AccountService
+import co.eliseev.fingate.core.controller.internal.BalanceSetterController
+import co.eliseev.fingate.core.model.entity.BankAccount
+import co.eliseev.fingate.core.model.entity.CardSystem
+import co.eliseev.fingate.core.model.entity.CardType
+import co.eliseev.fingate.core.model.entity.FeeFrequency
+import co.eliseev.fingate.core.service.AccountService
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

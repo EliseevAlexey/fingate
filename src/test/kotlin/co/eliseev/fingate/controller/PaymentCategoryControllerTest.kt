@@ -1,9 +1,10 @@
 package co.eliseev.fingate.controller
 
-import co.eliseev.fingate.model.converter.toEntity
-import co.eliseev.fingate.model.converter.toModel
-import co.eliseev.fingate.model.dto.PaymentCategoryDto
-import co.eliseev.fingate.service.PaymentCategoryService
+import co.eliseev.fingate.core.controller.PaymentCategoryController
+import co.eliseev.fingate.core.model.converter.toEntity
+import co.eliseev.fingate.core.model.converter.toModel
+import co.eliseev.fingate.core.model.dto.PaymentCategoryDto
+import co.eliseev.fingate.core.service.PaymentCategoryService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify

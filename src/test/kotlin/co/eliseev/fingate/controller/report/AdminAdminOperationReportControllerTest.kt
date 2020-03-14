@@ -1,14 +1,15 @@
 package co.eliseev.fingate.controller.report
 
-import co.eliseev.fingate.model.entity.BankAccount
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
-import co.eliseev.fingate.model.entity.FeeFrequency
-import co.eliseev.fingate.model.entity.Operation
-import co.eliseev.fingate.model.entity.OperationStatus
-import co.eliseev.fingate.model.entity.OperationType
-import co.eliseev.fingate.model.entity.PaymentCategory
-import co.eliseev.fingate.service.report.AdminOperationReport
+import co.eliseev.fingate.report.controller.AdminOperationReportController
+import co.eliseev.fingate.core.model.entity.BankAccount
+import co.eliseev.fingate.core.model.entity.CardSystem
+import co.eliseev.fingate.core.model.entity.CardType
+import co.eliseev.fingate.core.model.entity.FeeFrequency
+import co.eliseev.fingate.core.model.entity.Operation
+import co.eliseev.fingate.core.model.entity.OperationStatus
+import co.eliseev.fingate.core.model.entity.OperationType
+import co.eliseev.fingate.core.model.entity.PaymentCategory
+import co.eliseev.fingate.report.service.AdminOperationReport
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

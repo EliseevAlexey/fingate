@@ -1,13 +1,14 @@
 package co.eliseev.fingate.service
 
-import co.eliseev.fingate.model.entity.BankAccount
-import co.eliseev.fingate.model.entity.CardSystem
-import co.eliseev.fingate.model.entity.CardType
-import co.eliseev.fingate.model.entity.FeeFrequency
-import co.eliseev.fingate.model.entity.Operation
-import co.eliseev.fingate.model.entity.OperationStatus
-import co.eliseev.fingate.model.entity.OperationType
-import co.eliseev.fingate.model.entity.PaymentCategory
+import co.eliseev.fingate.core.service.OperationProcessorImpl
+import co.eliseev.fingate.core.model.entity.BankAccount
+import co.eliseev.fingate.core.model.entity.CardSystem
+import co.eliseev.fingate.core.model.entity.CardType
+import co.eliseev.fingate.core.model.entity.FeeFrequency
+import co.eliseev.fingate.core.model.entity.Operation
+import co.eliseev.fingate.core.model.entity.OperationStatus
+import co.eliseev.fingate.core.model.entity.OperationType
+import co.eliseev.fingate.core.model.entity.PaymentCategory
 import org.junit.jupiter.api.Test
 
 import java.time.LocalDate
