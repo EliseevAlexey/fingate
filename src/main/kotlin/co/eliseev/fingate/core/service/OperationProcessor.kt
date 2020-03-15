@@ -7,18 +7,19 @@ import co.eliseev.fingate.core.service.exception.IllegalOperationStatusException
 import org.springframework.stereotype.Component
 
 interface OperationProcessor {
-    fun processAndChangeStatus(operation: Operation)
+    fun processAndChangeStatus(operation: Operation, force: Boolean = false)
     fun reject(operation: Operation)
 }
 
 @Component
 class OperationProcessorImpl : OperationProcessor {
 
-    override fun processAndChangeStatus(operation: Operation) {
+    override fun processAndChangeStatus(operation: Operation, force: Boolean) {
         validateStatus(operation)
         when (operation.operationType) {
-            OperationType.WITHDRAW -> tryToWithdrawAndChangeStatus(operation)
-            else -> fundAndSetProcessedStatus(operation)
+            OperationType.WITHDRAW -> tryToWithdrawAndChangeStatus(operation, force)
+            OperationType.FUNDING -> fundAndSetProcessedStatus(operation)
+            else -> error("Unsupported operation ${operation.operationType}")
         }
     }
 
@@ -31,10 +32,11 @@ class OperationProcessorImpl : OperationProcessor {
         }
     }
 
-    private fun tryToWithdrawAndChangeStatus(operation: Operation) {
+    private fun tryToWithdrawAndChangeStatus(operation: Operation, force: Boolean) {
         val payment = operation.paymentAmount
         val balance = operation.bankAccount.balance
         when {
+            force -> withdrawAndSetProcessedStatus(operation)
             balance >= payment -> withdrawAndSetProcessedStatus(operation)
             else -> setRejectStatus(operation)
         }
@@ -52,10 +54,12 @@ class OperationProcessorImpl : OperationProcessor {
 
     private fun fund(operation: Operation) {
         operation.bankAccount.balance += operation.paymentAmount
+        // TODO notification
     }
 
     private fun withdraw(operation: Operation) {
         operation.bankAccount.balance -= operation.paymentAmount
+        // TODO notification
     }
 
     private fun setProcessedStatus(operation: Operation) {
@@ -70,7 +74,8 @@ class OperationProcessorImpl : OperationProcessor {
         validateRollback(operation)
         when (operation.operationType) {
             OperationType.WITHDRAW -> rollbackWithdrawAndSetRejectStatus(operation)
-            else -> rollbackFundAndSetRejectedStatus(operation)
+            OperationType.FUNDING -> rollbackFundAndSetRejectedStatus(operation)
+            else -> error("Unsupported operation type ${operation.operationType}")
         }
         //TODO notify client
     }

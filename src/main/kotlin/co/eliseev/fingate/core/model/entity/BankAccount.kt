@@ -18,44 +18,50 @@ data class BankAccount(
     val issuer: User? = null, // FIXME Bank
     // TODO add holder
 
+    @Column(name = "name")
+    val name: String? = null,
+
     @Column(name = "number")
-    val number: Long,
+    val number: Long? = null,
 
     @Column(name = "expiration_date_time")
-    val expirationDateTime: LocalDateTime,
+    val expirationDateTime: LocalDateTime? = null,
 
     @Column(name = "cvv")
-    val cvv: Int,
+    val cvv: Int? = null,
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    val type: CardType,
+    val type: CardType? = null,
 
     @Column(name = "currency")
-    val currency: String,
+    val currency: String? = null,
 
     @Column(name = "balance")
     var balance: BigDecimal = 0.toBigDecimal(),
 
     @Column(name = "system")
     @Enumerated(EnumType.STRING)
-    val system: CardSystem,
+    val system: CardSystem? = null,
 
-    @Column(name = "default")
+    @Column(name = "default", nullable = false)
     val default: Boolean = false,
 
     @Column(name = "registration_date")
-    val registrationDate: LocalDate,
+    val registrationDate: LocalDate? = null,
 
     @Column(name = "fee_frequency")
     @Enumerated(EnumType.STRING)
-    val feeFrequency: FeeFrequency,
+    val feeFrequency: FeeFrequency? = null,
 
     @ManyToOne
-    var accountFee: AccountFee? = null,
+    var bankAccountFee: BankAccountFee? = null,
 
     @ManyToOne
-    var user: User? = null
+    var user: User? = null,
+
+    @Column(name = "last_fee_withdraw")
+    var lastFeeWithdrawDate: LocalDate? = null
 
 ) : BaseEntity() {
 

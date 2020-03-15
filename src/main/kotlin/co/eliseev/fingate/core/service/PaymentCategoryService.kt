@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 interface PaymentCategoryService {
     fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory
     fun get(paymentCategoryId: Long): PaymentCategory
+    fun getFeePaymentCategory(): PaymentCategory
     fun delete(paymentCategoryId: Long): Boolean
     fun getAll(): List<PaymentCategory>
 }
@@ -28,6 +29,8 @@ class PaymentCategoryServiceImpl(
         }
 
     override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
+
+    override fun getFeePaymentCategory(): PaymentCategory = paymentCategoryRepository.getByName(FEE_PAYMENT_CATEGORY)
 
     private fun save(paymentCategory: PaymentCategory): PaymentCategory {
         try {
@@ -48,5 +51,9 @@ class PaymentCategoryServiceImpl(
 
     private fun getOne(paymentCategoryId: Long): PaymentCategory = paymentCategoryRepository.findById(paymentCategoryId)
         .orElseThrow { PaymentCategoryNotFoundException("Payment category by id '$paymentCategoryId' not found") }
+
+    companion object {
+        private const val FEE_PAYMENT_CATEGORY = "FeeWithdraw"
+    }
 
 }

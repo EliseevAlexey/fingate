@@ -8,7 +8,7 @@ import co.eliseev.fingate.core.model.entity.Operation
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.report.repository.OperationReportRepository
-import co.eliseev.fingate.core.service.AccountService
+import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.core.service.SecurityService
 import org.springframework.stereotype.Component
 import java.time.Clock
@@ -24,13 +24,13 @@ interface OperationReport {
 class OperationReportImpl(
     private val operationReportRepository: OperationReportRepository,
     private val securityService: SecurityService,
-    private val accountService: AccountService,
+    private val bankAccountService: BankAccountService,
     private val clock: Clock
 ) : OperationReport {
 
     override fun getAllYtd(): List<AccountReportDto> { // TODO add specified period
         val allOperations = getBankIdByOperations()
-        return accountService.getAll().map { bankAccount ->
+        return bankAccountService.getAll().map { bankAccount ->
             createReportData(allOperations, bankAccount)
         }
     }

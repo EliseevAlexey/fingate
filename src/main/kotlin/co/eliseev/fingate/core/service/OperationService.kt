@@ -13,7 +13,7 @@ import java.time.Clock
 import java.time.LocalDateTime
 
 interface OperationService {
-    fun create(operationModel: OperationModel): Operation
+    fun create(operationModel: OperationModel, force: Boolean = false): Operation // TODO create by entity
     fun getAllByOperationType(operationType: OperationType): List<Operation>
     fun getHistoryData(): List<Operation>
     fun reject(operationId: Long): Operation
@@ -22,16 +22,16 @@ interface OperationService {
 @Service
 class OperationServiceImpl(
     private val operationRepository: OperationRepository,
-    private val accountService: AccountService,
+    private val bankAccountService: BankAccountService,
     private val operationProcessor: OperationProcessor,
     private val paymentCategoryService: PaymentCategoryService,
     private val clock: Clock
 ) : OperationService {
 
     @Transactional
-    override fun create(operationModel: OperationModel): Operation {
+    override fun create(operationModel: OperationModel, force: Boolean): Operation {
         val operation = toEntity(operationModel)
-        operationProcessor.processAndChangeStatus(operation)
+        operationProcessor.processAndChangeStatus(operation, force)
         return operationRepository.save(operation)
     }
 
@@ -43,7 +43,7 @@ class OperationServiceImpl(
             paymentCategory = paymentCategoryService.get(operationModel.paymentCategoryId)
         )
 
-    private fun getAccount(operationModel: OperationModel) = accountService.get(operationModel.accountId)
+    private fun getAccount(operationModel: OperationModel) = bankAccountService.get(operationModel.accountId)
 
     override fun getAllByOperationType(operationType: OperationType): List<Operation> =
         operationRepository.findAllByOperationType(operationType)
