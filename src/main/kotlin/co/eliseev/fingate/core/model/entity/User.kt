@@ -1,8 +1,10 @@
 package co.eliseev.fingate.core.model.entity
 
+import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -10,19 +12,25 @@ import javax.persistence.Table
 data class User(
 
     @Column(name = "email", nullable = false)
-    private val email: String,
+    val email: String,
 
     @Column(name = "password", nullable = false)
-    private val password: String,
+    val password: String,
 
     @Column(name = "first_name")
-    private val firstName: String? = null,
+    val firstName: String? = null,
 
     @Column(name = "last_name")
-    private val lastName: String? = null,
+    val lastName: String? = null,
 
     @OneToMany
-    private val bankAccounts: Set<BankAccount> = emptySet()
+    val bankAccounts: Set<BankAccount> = emptySet(),
+
+    @Column(name = "birthday")
+    val birthday: LocalDate? = null,
+
+    @OneToOne
+    var defaultAccount: BankAccount? = null
 
 ) : BaseEntity() {
 

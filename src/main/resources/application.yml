@@ -9,4 +9,6 @@ spring:
     show-sql: true
     properties.hibernate.format_sql: true
 
-fingate.tasks.fees.schedule: 0 0 9 ? * MON-FRI
+fingate.tasks:
+    fees.schedule: 0 0 9 ? * MON-FRI
+    gifts.birthday.schedule: 0 0 9 ? * MON-FRI

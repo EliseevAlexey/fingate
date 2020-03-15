@@ -44,7 +44,7 @@ internal class AdminOperationReportControllerTest {
             withdrawServiceName = "testWithdrawServiceName"
         )
         whenever(adminOperationReport.getAllYTD()).thenReturn(listOf(operation))
-        mockMvc.get("$OPERATION_REPORTS_PATH/ytd")
+        mockMvc.get("$OPERATION_REPORTS_PATH/admin/ytd")
             .andExpect { status { isOk } }
         verify(adminOperationReport, times(1)).getAllYTD()
     }

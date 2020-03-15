@@ -1,4 +1,4 @@
-package co.eliseev.fingate.core.service.report
+package co.eliseev.fingate.report
 
 import org.junit.jupiter.api.Test
 

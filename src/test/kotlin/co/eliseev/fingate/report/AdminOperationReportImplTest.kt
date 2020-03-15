@@ -1,4 +1,4 @@
-package co.eliseev.fingate.core.service.report
+package co.eliseev.fingate.report
 
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.CardSystem

@@ -6,7 +6,6 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.model.entity.Operation
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
-import co.eliseev.fingate.core.repository.BankAccountFeeRepository
 import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.core.service.PaymentCategoryService
@@ -24,32 +23,49 @@ interface FeeService {
 class FeeServiceImpl(
     private val bankAccountService: BankAccountService,
     private val operationService: OperationService,
-    private val accountService: BankAccountService,
-    private val bankAccountFeeRepository: BankAccountFeeRepository,
     private val paymentCategoryService: PaymentCategoryService,
     private val clock: Clock
 ) : FeeService {
 
     @Transactional
     override fun checkAllAccountsAndWithdrawFee() {
-        val today = LocalDate.now(clock)
+        val operationData = prepareOperationData()
         bankAccountService.getAll()
-            .forEach { tryToWithdrawFee(it, today) }
+            .forEach { tryToWithdrawFee(it, operationData) }
     }
 
-    private fun tryToWithdrawFee(bankAccount: BankAccount, today: LocalDate) {
+    inner class OperationData(
+        val today: LocalDate,
+        val paymentCategoryId: Long,
+        val defaultAccountName: String
+    )
+
+    fun prepareOperationData(): OperationData {
+        val today = LocalDate.now(clock)
+        val paymentCategoryId = paymentCategoryService.getFeePaymentCategory().id!!
+        val defaultAccountName = bankAccountService.getDefaultAccount().name!!
+        return OperationData(
+            today = today,
+            paymentCategoryId = paymentCategoryId,
+            defaultAccountName = defaultAccountName
+        )
+    }
+
+    private fun tryToWithdrawFee(bankAccount: BankAccount, operationData: OperationData) {
         when (bankAccount.feeFrequency) {
-            FeeFrequency.MONTHLY -> tryToWithDrawMonthlyFee(bankAccount, today)
-            FeeFrequency.YEARLY -> tryToWithDrawYearlyFee(bankAccount, today)
+            FeeFrequency.MONTHLY -> tryToWithDrawMonthlyFee(bankAccount, operationData)
+            FeeFrequency.YEARLY -> tryToWithDrawYearlyFee(bankAccount, operationData)
             else -> error("Unsupported Fee frequency ${bankAccount.feeFrequency}")
         }
     }
 
-    private fun tryToWithDrawMonthlyFee(bankAccount: BankAccount, today: LocalDate) {
+    private fun tryToWithDrawMonthlyFee(bankAccount: BankAccount, operationData: OperationData) {
+        val today = operationData.today
         if (isPeriodMoreThanMonth(bankAccount, today)) {
-            createOperationModel(bankAccount).also { operationModel ->
+            createOperationModel(bankAccount, operationData).also { operationModel ->
                 save(operationModel)
                 updateLastFeeWithdrawDate(bankAccount, today)
+                // TODO notify client
             }
         }
     }
@@ -58,48 +74,45 @@ class FeeServiceImpl(
         bankAccount.lastFeeWithdrawDate = today
     }
 
-    private fun createOperationModel(bankAccount: BankAccount): OperationModel {
-        val bankAccountFee = bankAccountFeeRepository.findBySystemAndFeeFrequency(
-            system = bankAccount.system,
-            feeFrequency = bankAccount.feeFrequency
-        )
-        return OperationModel(
-            accountId = bankAccount.id!!,
-            operationStatus = OperationStatus.NEW,
-            operationType = OperationType.WITHDRAW,
-            paymentAmount = bankAccountFee?.value ?: defaultPayment,
-            paymentCategoryId = paymentCategoryService.getFeePaymentCategory().id!!,
-            withdrawServiceName = accountService.getDefaultAccount().name!!
-        )
-    }
+    private fun createOperationModel(
+        bankAccount: BankAccount,
+        operationData: OperationData
+    ) = OperationModel(
+        accountId = bankAccount.id!!,
+        operationStatus = OperationStatus.NEW,
+        operationType = OperationType.WITHDRAW,
+        paymentAmount = bankAccount.bankAccountFee?.value ?: defaultPayment,
+        paymentCategoryId = operationData.paymentCategoryId,
+        withdrawServiceName = operationData.defaultAccountName
+    )
 
     private fun save(operationModel: OperationModel): Operation =
         operationService.create(operationModel = operationModel, force = true)
 
-    private fun isPeriodMoreThanMonth(bankAccount: BankAccount, today: LocalDate): Boolean {
+    private fun isPeriodMoreThanMonth(bankAccount: BankAccount, today: LocalDate): Boolean =
+        getPeriod(bankAccount, today).months > 0
+
+    private fun getPeriod(bankAccount: BankAccount, today: LocalDate): Period {
         val from = bankAccount.lastFeeWithdrawDate ?: bankAccount.registrationDate
-        val period = Period.between(from, today)
-        return period.months > 0
+        return Period.between(from, today)
     }
 
-    private fun tryToWithDrawYearlyFee(bankAccount: BankAccount, today: LocalDate) {
+    private fun tryToWithDrawYearlyFee(bankAccount: BankAccount, operationData: OperationData) {
+        val today = operationData.today
         if (isPeriodMoreThanYear(bankAccount, today)) {
-            createOperationModel(bankAccount).also { operationModel ->
+            createOperationModel(bankAccount, operationData).also { operationModel ->
                 save(operationModel)
                 updateLastFeeWithdrawDate(bankAccount, today)
+                // TODO notify client
             }
         }
     }
 
-    private fun isPeriodMoreThanYear(bankAccount: BankAccount, today: LocalDate): Boolean {
-        val from = bankAccount.lastFeeWithdrawDate ?: bankAccount.registrationDate
-        val period = Period.between(from, today)
-        return period.years > 0
-    }
+    private fun isPeriodMoreThanYear(bankAccount: BankAccount, today: LocalDate): Boolean =
+        getPeriod(bankAccount, today).years > 0
 
     companion object {
         private val defaultPayment = 0.toBigDecimal()
-        private const val WITHDRAW_SERVICE_NAME = "default_service_name"
     }
 
 }

@@ -14,6 +14,7 @@ interface PaymentCategoryService {
     fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory
     fun get(paymentCategoryId: Long): PaymentCategory
     fun getFeePaymentCategory(): PaymentCategory
+    fun getGiftFundPaymentCategory(): PaymentCategory
     fun delete(paymentCategoryId: Long): Boolean
     fun getAll(): List<PaymentCategory>
 }
@@ -28,10 +29,6 @@ class PaymentCategoryServiceImpl(
             save(it)
         }
 
-    override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
-
-    override fun getFeePaymentCategory(): PaymentCategory = paymentCategoryRepository.getByName(FEE_PAYMENT_CATEGORY)
-
     private fun save(paymentCategory: PaymentCategory): PaymentCategory {
         try {
             return paymentCategoryRepository.save(paymentCategory)
@@ -39,6 +36,13 @@ class PaymentCategoryServiceImpl(
             throw PaymentCategoryAlreadyExists("Payment category $paymentCategory already exists")
         }
     }
+
+    override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
+
+    override fun getFeePaymentCategory(): PaymentCategory = paymentCategoryRepository.getByName(FEE_PAYMENT_CATEGORY)
+
+    override fun getGiftFundPaymentCategory(): PaymentCategory =
+        paymentCategoryRepository.getByName(GIFT_FUND_PAYMENT_CATEGORY)
 
     @Transactional
     override fun delete(paymentCategoryId: Long): Boolean =
@@ -54,6 +58,7 @@ class PaymentCategoryServiceImpl(
 
     companion object {
         private const val FEE_PAYMENT_CATEGORY = "FeeWithdraw"
+        private const val GIFT_FUND_PAYMENT_CATEGORY = "GiftFund"
     }
 
 }

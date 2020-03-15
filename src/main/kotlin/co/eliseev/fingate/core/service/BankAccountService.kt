@@ -24,13 +24,13 @@ interface BankAccountService {
 class BankAccountServiceImpl(
     private val bankAccountRepository: BankAccountRepository,
     private val securityService: SecurityService,
-    private val bankAccountFeeSetter: BankAccountFeeSetter,
+    private val bankAccountFeeService: BankAccountFeeService,
     private val clock: Clock
 ) : BankAccountService {
 
     override fun create(bankAccountModel: BankAccountModel): BankAccount =
         bankAccountModel.toEntity(getCurrentUser(), getToday()).let { account ->
-            bankAccountFeeSetter.applyFee(account)
+            bankAccountFeeService.applyFee(account)
             bankAccountRepository.save(account).also {
                 notifyNewAccountCreation()
             }

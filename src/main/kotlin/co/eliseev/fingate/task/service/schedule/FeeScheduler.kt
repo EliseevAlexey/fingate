@@ -1,7 +1,7 @@
-package co.eliseev.fingate.task.service
+package co.eliseev.fingate.task.service.schedule
 
+import co.eliseev.fingate.task.service.FeeService
 import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
@@ -10,12 +10,12 @@ interface FeeScheduler {
 }
 
 @Component
-@EnableScheduling
-class FeeSchedulerImpl(private val feeService: FeeService) : FeeScheduler {
+class FeeSchedulerImpl(private val feeService: FeeService) :
+    FeeScheduler {
 
     @Scheduled(cron = "\${fingate.tasks.fees.schedule}")
     override fun checkFee()  {
-        logger.info("Scheduled checking all accounts adn withdraw fee")
+        logger.info("Scheduled checking all accounts and withdraw fee")
         feeService.checkAllAccountsAndWithdrawFee()
     }
 

@@ -24,7 +24,12 @@ VALUES (1, 111122223334444, '2020-01-12', 555, 'DEBIT', 'USD', 100, 'MASTER_CARD
 -- Test payment categories
 INSERT INTO payment_categories (name)
 VALUES ('FeeWithdraw'),
+       ('GiftFund'),
        ('Shop');
+
+-- Test gifts
+INSERT INTO gifts (gift_type, value)
+VALUES ('BIRTHDAY', 100);
 
 -- Test operations
 INSERT INTO operations (withdraw_service_name, payment_category_id, payment_amount, payment_date_time, bank_account_id,

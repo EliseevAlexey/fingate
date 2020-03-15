@@ -9,7 +9,6 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.model.entity.PaymentCategory
-import co.eliseev.fingate.core.repository.BankAccountFeeRepository
 import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.core.service.PaymentCategoryService
@@ -32,8 +31,6 @@ internal class FeeServiceImplTest {
 
     private val bankAccountService = mock<BankAccountService>()
     private val operationService = mock<OperationService>()
-    private val accountService = mock<BankAccountService>()
-    private val bankAccountFeeRepository = mock<BankAccountFeeRepository>()
     private val paymentCategoryService = mock<PaymentCategoryService>()
     private val clock = mock<Clock>()
     private lateinit var feeService: FeeService
@@ -43,8 +40,6 @@ internal class FeeServiceImplTest {
         reset(
             bankAccountService,
             operationService,
-            accountService,
-            bankAccountFeeRepository,
             paymentCategoryService,
             clock
         )
@@ -52,8 +47,6 @@ internal class FeeServiceImplTest {
         feeService = FeeServiceImpl(
             bankAccountService,
             operationService,
-            accountService,
-            bankAccountFeeRepository,
             paymentCategoryService,
             clock
         )
@@ -64,10 +57,11 @@ internal class FeeServiceImplTest {
 
         val lastFeeWithdrawDate = testDate.minusDays(1)
         val bankAccounts = listOf(
-            createBankAccountWithParameters(FeeFrequency.MONTHLY, lastFeeWithdrawDate)
+            createBankAccountWithParameters(FeeFrequency.MONTHLY, lastFeeWithdrawDate, masterCardMonthlyBankAccountFee)
         )
         whenever(bankAccountService.getAll()).thenReturn(bankAccounts)
-        whenever(accountService.getDefaultAccount()).thenReturn(defaultAccount)
+        whenever(bankAccountService.getDefaultAccount()).thenReturn(defaultAccount)
+        whenever(paymentCategoryService.getFeePaymentCategory()).thenReturn(feePaymentCategory)
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, never()).create(operationModel = any(), force = any())
@@ -78,19 +72,17 @@ internal class FeeServiceImplTest {
 
         val lastFeeWithdrawDate = testDate.minusMonths(1).minusDays(1)
         val bankAccounts = listOf(
-            createBankAccountWithParameters(FeeFrequency.MONTHLY, lastFeeWithdrawDate)
+            createBankAccountWithParameters(FeeFrequency.MONTHLY, lastFeeWithdrawDate, masterCardMonthlyBankAccountFee)
         )
         whenever(bankAccountService.getAll()).thenReturn(bankAccounts)
-        whenever(accountService.getDefaultAccount()).thenReturn(defaultAccount)
-        whenever(bankAccountFeeRepository.findBySystemAndFeeFrequency(CardSystem.MASTER_CARD, FeeFrequency.MONTHLY))
-            .thenReturn(masterCardMonthlyBankAccountFee)
+        whenever(bankAccountService.getDefaultAccount()).thenReturn(defaultAccount)
         whenever(paymentCategoryService.getFeePaymentCategory()).thenReturn(feePaymentCategory)
         val operationModel = OperationModel(
             accountId = defaultAccount.id!!,
             operationType = OperationType.WITHDRAW,
             paymentAmount = masterCardMonthlyBankAccountFee.value,
             paymentCategoryId = feePaymentCategory.id!!,
-            withdrawServiceName = DEFAULT_SERVICE_NAME,
+            withdrawServiceName = defaultAccount.name!!,
             operationStatus = OperationStatus.NEW
         )
 
@@ -103,10 +95,11 @@ internal class FeeServiceImplTest {
 
         val lastFeeWithdrawDate = testDate.minusDays(1)
         val bankAccounts = listOf(
-            createBankAccountWithParameters(FeeFrequency.YEARLY, lastFeeWithdrawDate)
+            createBankAccountWithParameters(FeeFrequency.YEARLY, lastFeeWithdrawDate, masterCardYearlyBankAccountFee)
         )
         whenever(bankAccountService.getAll()).thenReturn(bankAccounts)
-        whenever(accountService.getDefaultAccount()).thenReturn(defaultAccount)
+        whenever(bankAccountService.getDefaultAccount()).thenReturn(defaultAccount)
+        whenever(paymentCategoryService.getFeePaymentCategory()).thenReturn(feePaymentCategory)
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, never()).create(operationModel = any(), force = any())
@@ -117,19 +110,17 @@ internal class FeeServiceImplTest {
     fun `when withdraw yearly fee and last was greater than year then withdraw`() {
         val lastFeeWithdrawDate = testDate.minusYears(1).minusDays(1)
         val bankAccounts = listOf(
-            createBankAccountWithParameters(FeeFrequency.YEARLY, lastFeeWithdrawDate)
+            createBankAccountWithParameters(FeeFrequency.YEARLY, lastFeeWithdrawDate, masterCardYearlyBankAccountFee)
         )
         whenever(bankAccountService.getAll()).thenReturn(bankAccounts)
-        whenever(accountService.getDefaultAccount()).thenReturn(defaultAccount)
-        whenever(bankAccountFeeRepository.findBySystemAndFeeFrequency(CardSystem.MASTER_CARD, FeeFrequency.YEARLY))
-            .thenReturn(masterCardYearlyBankAccountFee)
+        whenever(bankAccountService.getDefaultAccount()).thenReturn(defaultAccount)
         whenever(paymentCategoryService.getFeePaymentCategory()).thenReturn(feePaymentCategory)
         val operationModel = OperationModel(
             accountId = defaultAccount.id!!,
             operationType = OperationType.WITHDRAW,
             paymentAmount = masterCardYearlyBankAccountFee.value,
             paymentCategoryId = feePaymentCategory.id!!,
-            withdrawServiceName = DEFAULT_SERVICE_NAME,
+            withdrawServiceName = defaultAccount.name!!,
             operationStatus = OperationStatus.NEW
         )
 
@@ -139,20 +130,20 @@ internal class FeeServiceImplTest {
 
     private fun createBankAccountWithParameters(
         feeFrequency: FeeFrequency,
-        lastFeeWithdrawDate: LocalDate
-    ): BankAccount {
-        return BankAccount(
-            number = 9990,
-            currency = "USD",
-            cvv = 999,
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
-            feeFrequency = feeFrequency,
-            expirationDateTime = LocalDateTime.now(),
-            lastFeeWithdrawDate = lastFeeWithdrawDate,
-            registrationDate = LocalDate.now()
-        )
-    }
+        lastFeeWithdrawDate: LocalDate,
+        bankAccountFee: BankAccountFee
+    ) = BankAccount(
+        number = 9990,
+        currency = "USD",
+        cvv = 999,
+        system = CardSystem.MASTER_CARD,
+        type = CardType.CREDIT,
+        feeFrequency = feeFrequency,
+        expirationDateTime = LocalDateTime.now(),
+        lastFeeWithdrawDate = lastFeeWithdrawDate,
+        registrationDate = testDate,
+        bankAccountFee = bankAccountFee
+    ).apply { id = 1L }
 
     private fun prepareClock() {
         whenever(clock.instant()).thenReturn(fixedClock.instant())
@@ -174,8 +165,9 @@ internal class FeeServiceImplTest {
             number = 0,
             system = CardSystem.MASTER_CARD,
             type = CardType.CREDIT,
-            lastFeeWithdrawDate = LocalDate.now(),
-            registrationDate = LocalDate.now()
+            lastFeeWithdrawDate = testDate,
+            registrationDate = testDate,
+            name = "testName"
         ).apply { id = 1L }
 
         private val masterCardMonthlyBankAccountFee = BankAccountFee(
@@ -194,7 +186,6 @@ internal class FeeServiceImplTest {
             name = "feePaymentCategory"
         ).apply { id = 1L }
 
-        private const val DEFAULT_SERVICE_NAME = "default_service_name"
     }
 
 }

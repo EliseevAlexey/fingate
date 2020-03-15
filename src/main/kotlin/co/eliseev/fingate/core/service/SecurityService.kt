@@ -9,9 +9,9 @@ interface SecurityService {
 }
 
 @Service
-class SecurityServiceImpl(private val userRepository: UserRepository):
+class SecurityServiceImpl(private val userService: UserService):
     SecurityService {
 
-    override fun getCurrentUser(): User = userRepository.getOne(1L) // FIXME Get user from SecurityContext
+    override fun getCurrentUser(): User = userService.get(1L) // FIXME Get user from SecurityContext
 
 }

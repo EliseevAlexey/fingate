@@ -18,19 +18,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.time.Clock
-import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Optional
 
 internal class BankBankAccountServiceImplTest {
 
     private val accountRepository = mock<BankAccountRepository>()
     private val securityService = mock<SecurityService>()
-    private val accountFeeChecker = mock<BankAccountFeeSetter>()
+    private val accountFeeChecker = mock<BankAccountFeeService>()
     private val clock = mock<Clock>()
     private lateinit var bankAccountService: BankAccountService
 
@@ -46,7 +44,6 @@ internal class BankBankAccountServiceImplTest {
     }
 
     @Test
-    @Disabled("Comparison Failure: NEW LINE, NPE mock clock")
     fun testCreate() {
         val accountModel = BankAccountModel(
             number = 9990,
@@ -58,6 +55,7 @@ internal class BankBankAccountServiceImplTest {
             feeFrequency = FeeFrequency.YEARLY
         )
         val expected = BankAccount(
+            issuer = testUser,
             number = accountModel.number,
             currency = accountModel.currency,
             cvv = accountModel.cvv,
@@ -65,11 +63,10 @@ internal class BankBankAccountServiceImplTest {
             system = accountModel.system,
             type = accountModel.type,
             feeFrequency = FeeFrequency.YEARLY,
-            registrationDate = LocalDate.now()
+            registrationDate = testDate
         )
         whenever(accountRepository.save(any<BankAccount>())).thenReturn(expected)
-        val testDate = LocalDate.of(2020, 3, 12)
-        whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(testDate.toEpochDay()))
+        prepareClock()
         mockUser()
 
         val actual = bankAccountService.create(accountModel)
@@ -127,17 +124,26 @@ internal class BankBankAccountServiceImplTest {
         whenever(securityService.getCurrentUser()).thenReturn(testUser)
     }
 
+    private fun prepareClock() {
+        whenever(clock.instant()).thenReturn(fixedClock.instant())
+        whenever(clock.zone).thenReturn(fixedClock.zone)
+    }
+
     companion object {
+        private val testDateTime = LocalDateTime.of(2020, 3, 11, 22, 10, 0)
+        private val testDate = testDateTime.toLocalDate()
+        private val fixedClock =
+            Clock.fixed(testDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
         private val testUser = User("testEmail", "testPassword").apply { id = 1 }
         private val testAccount = BankAccount(
             number = 9990,
             currency = "USD",
             cvv = 999,
-            expirationDateTime = LocalDateTime.now(),
+            expirationDateTime = testDateTime,
             system = CardSystem.MASTER_CARD,
             type = CardType.CREDIT,
             feeFrequency = FeeFrequency.YEARLY,
-            registrationDate = LocalDate.now()
+            registrationDate = testDate
         ).apply { id = 1L }
     }
 
