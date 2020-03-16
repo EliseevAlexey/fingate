@@ -1,7 +1,6 @@
 package co.eliseev.fingate.core.service
 
 import co.eliseev.fingate.core.model.entity.User
-import co.eliseev.fingate.core.repository.UserRepository
 import org.springframework.stereotype.Service
 
 interface SecurityService {

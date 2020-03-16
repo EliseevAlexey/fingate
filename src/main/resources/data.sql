@@ -37,3 +37,9 @@ INSERT INTO operations (withdraw_service_name, payment_category_id, payment_amou
 VALUES ('shop', 1, 50, '2020-04-12T14:45:33.701', 2, 'WITHDRAW', 'PROCESSED', 1),
        ('shop', 1, 150, '2020-04-12T13:45:33.701', 3, 'WITHDRAW', 'REJECTED', 1),
        ('shop', 1, 150, '2020-04-12T12:45:33.701', 2, 'WITHDRAW', 'PROCESSED', 1);
+
+-- Test notifications
+INSERT INTO notifications (name)
+VALUES ( 'WITHDRAW' ),
+       ( 'FUND' ),
+       ( 'NEGATIVE_BALANCE' );

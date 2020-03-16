@@ -3,6 +3,7 @@ package co.eliseev.fingate.core.service
 import co.eliseev.fingate.core.model.BankAccountModel
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.converter.toEntity
+import co.eliseev.fingate.core.model.entity.User
 import co.eliseev.fingate.core.repository.BankAccountRepository
 import co.eliseev.fingate.core.service.exception.BankAccountNotFoundException
 import org.springframework.stereotype.Service
@@ -18,6 +19,7 @@ interface BankAccountService {
     fun delete(accountId: Long): Boolean
     fun getAll(): List<BankAccount>
     fun setBalance(balance: BigDecimal, accountId: Long): BankAccount
+    fun countAllByIssuer(issuer: User): Long
 }
 
 @Service
@@ -63,5 +65,7 @@ class BankAccountServiceImpl(
     private fun getOne(accountId: Long): BankAccount =
         bankAccountRepository.findById(accountId)
             .orElseThrow { BankAccountNotFoundException("Account with id '$accountId' not found") }
+
+    override fun countAllByIssuer(issuer: User): Long = bankAccountRepository.countAllByIssuer(issuer)
 
 }

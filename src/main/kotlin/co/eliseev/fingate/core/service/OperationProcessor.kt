@@ -4,6 +4,10 @@ import co.eliseev.fingate.core.model.entity.Operation
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.service.exception.IllegalOperationStatusException
+import co.eliseev.fingate.notification.model.event.FundEvent
+import co.eliseev.fingate.notification.model.event.RejectEvent
+import co.eliseev.fingate.notification.model.event.WithdrawEvent
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 
 interface OperationProcessor {
@@ -12,7 +16,10 @@ interface OperationProcessor {
 }
 
 @Component
-class OperationProcessorImpl : OperationProcessor {
+class OperationProcessorImpl(
+    private val eventPublisher: ApplicationEventPublisher,
+    private val securityService: SecurityService
+) : OperationProcessor {
 
     override fun processAndChangeStatus(operation: Operation, force: Boolean) {
         validateStatus(operation)
@@ -36,8 +43,7 @@ class OperationProcessorImpl : OperationProcessor {
         val payment = operation.paymentAmount
         val balance = operation.bankAccount.balance
         when {
-            force -> withdrawAndSetProcessedStatus(operation)
-            balance >= payment -> withdrawAndSetProcessedStatus(operation)
+            force || balance >= payment -> withdrawAndSetProcessedStatus(operation)
             else -> setRejectStatus(operation)
         }
     }
@@ -54,12 +60,12 @@ class OperationProcessorImpl : OperationProcessor {
 
     private fun fund(operation: Operation) {
         operation.bankAccount.balance += operation.paymentAmount
-        // TODO notification
+        eventPublisher.publishEvent(FundEvent(securityService.getCurrentUser()))
     }
 
     private fun withdraw(operation: Operation) {
         operation.bankAccount.balance -= operation.paymentAmount
-        // TODO notification
+        eventPublisher.publishEvent(WithdrawEvent(securityService.getCurrentUser()))
     }
 
     private fun setProcessedStatus(operation: Operation) {
@@ -77,7 +83,7 @@ class OperationProcessorImpl : OperationProcessor {
             OperationType.FUNDING -> rollbackFundAndSetRejectedStatus(operation)
             else -> error("Unsupported operation type ${operation.operationType}")
         }
-        //TODO notify client
+        eventPublisher.publishEvent(RejectEvent(securityService.getCurrentUser()))
     }
 
     private fun validateRollback(operation: Operation) {
