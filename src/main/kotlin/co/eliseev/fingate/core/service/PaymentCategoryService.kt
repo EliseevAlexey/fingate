@@ -29,17 +29,17 @@ class PaymentCategoryServiceImpl(
             save(it)
         }
 
-    private fun save(paymentCategory: PaymentCategory): PaymentCategory {
+    private fun save(paymentCategory: PaymentCategory): PaymentCategory =
         try {
-            return paymentCategoryRepository.save(paymentCategory)
+            paymentCategoryRepository.save(paymentCategory)
         } catch (e: DataIntegrityViolationException) {
-            throw PaymentCategoryAlreadyExists("Payment category $paymentCategory already exists")
+            throw PaymentCategoryAlreadyExists("payments.create.duplicate", paymentCategory)
         }
-    }
 
     override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
 
-    override fun getFeePaymentCategory(): PaymentCategory = paymentCategoryRepository.getByName(FEE_PAYMENT_CATEGORY)
+    override fun getFeePaymentCategory(): PaymentCategory =
+        paymentCategoryRepository.getByName(FEE_PAYMENT_CATEGORY)
 
     override fun getGiftFundPaymentCategory(): PaymentCategory =
         paymentCategoryRepository.getByName(GIFT_FUND_PAYMENT_CATEGORY)
@@ -54,7 +54,7 @@ class PaymentCategoryServiceImpl(
     override fun getAll(): List<PaymentCategory> = paymentCategoryRepository.findAll()
 
     private fun getOne(paymentCategoryId: Long): PaymentCategory = paymentCategoryRepository.findById(paymentCategoryId)
-        .orElseThrow { PaymentCategoryNotFoundException("Payment category by id '$paymentCategoryId' not found") }
+        .orElseThrow { PaymentCategoryNotFoundException("payments.not_found", paymentCategoryId) }
 
     companion object {
         private const val FEE_PAYMENT_CATEGORY = "FeeWithdraw"

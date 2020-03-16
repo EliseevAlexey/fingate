@@ -2,6 +2,14 @@ package co.eliseev.fingate.core.service.exception
 
 import java.lang.RuntimeException
 
-class IllegalOperationStatusException(message: String) : RuntimeException(message)
+class IllegalOperationStatusException(
+    val messageCode: String,
+    val param: Any? = null,
+    val params: Array<Any>? = null
+) : RuntimeException()
 
-class OperationNotFoundException(message: String) : RuntimeException(message)
+class OperationNotFoundException(
+    val messageCode: String,
+    val param: Any? = null,
+    val params: Array<Any>? = null
+) : RuntimeException()

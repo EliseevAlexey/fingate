@@ -11,9 +11,9 @@ interface GiftService {
 }
 
 @Service
-class GiftServiceImpl(private val giftRepository: GiftRepository): GiftService {
+class GiftServiceImpl(private val giftRepository: GiftRepository) : GiftService {
 
     override fun getByType(giftType: GiftType): Gift = giftRepository.getByGiftType(giftType)
-        ?: throw GiftNotFoundException("Gift with type $giftType not found")
+        ?: throw GiftNotFoundException("gifts.not_found", giftType)
 
 }

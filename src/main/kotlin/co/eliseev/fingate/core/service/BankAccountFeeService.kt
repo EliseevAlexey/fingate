@@ -5,6 +5,7 @@ import co.eliseev.fingate.core.model.entity.BankAccountFee
 import co.eliseev.fingate.core.model.entity.CardSystem
 import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.repository.BankAccountFeeRepository
+import co.eliseev.fingate.core.repository.BankAccountRepository
 import co.eliseev.fingate.core.service.exception.BankAccountFeeNotFoundException
 import org.springframework.stereotype.Component
 
@@ -16,7 +17,7 @@ interface BankAccountFeeService {
 @Component
 class BankAccountFeeServiceImpl(
     private val bankAccountFeeRepository: BankAccountFeeRepository,
-    private val bankAccountService: BankAccountService // FIXME call service
+    private val bankAccountService: BankAccountRepository // FIXME call service
 ) : BankAccountFeeService {
 
     override fun applyFee(bankAccount: BankAccount) {
@@ -34,9 +35,7 @@ class BankAccountFeeServiceImpl(
 
     private fun getFee(system: CardSystem?, feeFrequency: FeeFrequency?) =
         bankAccountFeeRepository.findBySystemAndFeeFrequency(system, feeFrequency)
-            ?: throw BankAccountFeeNotFoundException(
-                "Account fee by system $system and fee frequency $feeFrequency not found"
-            )
+            ?: throw BankAccountFeeNotFoundException("bank_account_fee.not_found", arrayOf(system, feeFrequency))
 
     override fun getAll(): List<BankAccountFee> = bankAccountFeeRepository.findAll()
 

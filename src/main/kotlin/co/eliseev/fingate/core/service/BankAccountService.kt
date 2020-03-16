@@ -64,7 +64,7 @@ class BankAccountServiceImpl(
 
     private fun getOne(accountId: Long): BankAccount =
         bankAccountRepository.findById(accountId)
-            .orElseThrow { BankAccountNotFoundException("Account with id '$accountId' not found") }
+            .orElseThrow { BankAccountNotFoundException("bank_account.not_found", accountId) }
 
     override fun countAllByIssuer(issuer: User): Long = bankAccountRepository.countAllByIssuer(issuer)
 

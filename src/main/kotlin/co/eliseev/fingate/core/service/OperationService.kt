@@ -52,16 +52,15 @@ class OperationServiceImpl(
 
     @Transactional
     override fun reject(operationId: Long): Operation {
-        getOne(operationId)
-            .let {
-                operationProcessor.reject(it)
-                return it
-            }
+        getOne(operationId).let { operation ->
+            operationProcessor.reject(operation)
+            return operation
+        }
     }
 
     private fun getOne(operationId: Long): Operation {
         return operationRepository.findById(operationId)
-            .orElseThrow { OperationNotFoundException("Operation with id '$operationId' not found") }
+            .orElseThrow { OperationNotFoundException("operations.not_found", operationId) }
     }
 
 }

@@ -26,7 +26,7 @@ class OperationProcessorImpl(
         when (operation.operationType) {
             OperationType.WITHDRAW -> tryToWithdrawAndChangeStatus(operation, force)
             OperationType.FUNDING -> fundAndSetProcessedStatus(operation)
-            else -> error("Unsupported operation ${operation.operationType}")
+            else -> throw IllegalOperationStatusException("operations.type.not_supported", operation.operationType)
         }
     }
 
@@ -34,7 +34,7 @@ class OperationProcessorImpl(
         val operationStatus = operation.operationStatus
         if (operationStatus != OperationStatus.NEW) {
             throw IllegalOperationStatusException(
-                "Operation status must be ${OperationStatus.NEW} status while processing, but was $operationStatus"
+                "operations.processing.status.illegal_state", arrayOf(OperationStatus.NEW, operationStatus)
             )
         }
     }
@@ -49,21 +49,21 @@ class OperationProcessorImpl(
     }
 
     private fun withdrawAndSetProcessedStatus(operation: Operation) {
-        withdraw(operation)
+        withdrawAndPublish(operation)
         setProcessedStatus(operation)
     }
 
     private fun fundAndSetProcessedStatus(operation: Operation) {
-        fund(operation)
+        fundAndPublish(operation)
         setProcessedStatus(operation)
     }
 
-    private fun fund(operation: Operation) {
+    private fun fundAndPublish(operation: Operation) {
         operation.bankAccount.balance += operation.paymentAmount
         eventPublisher.publishEvent(FundEvent(securityService.getCurrentUser()))
     }
 
-    private fun withdraw(operation: Operation) {
+    private fun withdrawAndPublish(operation: Operation) {
         operation.bankAccount.balance -= operation.paymentAmount
         eventPublisher.publishEvent(WithdrawEvent(securityService.getCurrentUser()))
     }
@@ -81,7 +81,7 @@ class OperationProcessorImpl(
         when (operation.operationType) {
             OperationType.WITHDRAW -> rollbackWithdrawAndSetRejectStatus(operation)
             OperationType.FUNDING -> rollbackFundAndSetRejectedStatus(operation)
-            else -> error("Unsupported operation type ${operation.operationType}")
+            else -> throw IllegalOperationStatusException("operations.type.not_supported", operation.operationType)
         }
         eventPublisher.publishEvent(RejectEvent(securityService.getCurrentUser()))
     }
@@ -90,18 +90,18 @@ class OperationProcessorImpl(
         val operationStatus = operation.operationStatus
         if (operationStatus != OperationStatus.PROCESSED) {
             throw IllegalOperationStatusException(
-                "Operation status must be ${OperationStatus.PROCESSED} status while rollback, but was $operationStatus"
+                "operations.rejecting.status.illegal_state", arrayOf(OperationStatus.PROCESSED, operationStatus)
             )
         }
     }
 
     private fun rollbackWithdrawAndSetRejectStatus(operation: Operation) {
-        fund(operation)
+        fundAndPublish(operation)
         setRejectStatus(operation)
     }
 
     private fun rollbackFundAndSetRejectedStatus(operation: Operation) {
-        withdraw(operation)
+        withdrawAndPublish(operation)
         setRejectStatus(operation)
     }
 
