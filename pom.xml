@@ -18,6 +18,8 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.3.61</kotlin.version>
 
+        <jjwt.version>0.9.1</jjwt.version>
+
         <!-- Utils -->
         <swagger.version>2.9.2</swagger.version>
 
@@ -43,6 +45,17 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <!-- Kotlin -->

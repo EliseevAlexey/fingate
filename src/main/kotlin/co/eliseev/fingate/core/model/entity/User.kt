@@ -1,8 +1,13 @@
 package co.eliseev.fingate.core.model.entity
 
+import co.eliseev.fingate.security.model.entity.Role
 import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.Table
@@ -30,12 +35,24 @@ data class User(
     val birthday: LocalDate? = null,
 
     @OneToOne
-    var defaultAccount: BankAccount? = null
+    var defaultAccount: BankAccount? = null,
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = JOIN_TABLE,
+        joinColumns = [JoinColumn(name = JOIN_COLUMN)],
+        inverseJoinColumns = [JoinColumn(name = INVERSE_JOIN_COLUMN)]
+    )
+    var roles: Set<Role> = emptySet()
 
 ) : BaseEntity() {
 
     companion object {
         const val TABLE_NAME = "users"
+        private const val JOIN_TABLE = "user_roles"
+        private const val JOIN_COLUMN = "user_id"
+        private const val INVERSE_JOIN_COLUMN = "role_id"
+
     }
 
 }

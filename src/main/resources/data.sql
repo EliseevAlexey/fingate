@@ -43,3 +43,5 @@ INSERT INTO notifications (name)
 VALUES ( 'WITHDRAW' ),
        ( 'FUND' ),
        ( 'NEGATIVE_BALANCE' );
+
+INSERT INTO roles(name) VALUES('USER');

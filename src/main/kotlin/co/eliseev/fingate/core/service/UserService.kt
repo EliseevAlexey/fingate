@@ -8,6 +8,7 @@ import java.time.Clock
 import java.time.LocalDate
 
 interface UserService {
+    fun save(user: User): User
     fun get(userId: Long): User
     fun getAllWithTodayBirthday(): List<User>
     fun setDefaultAccount(user: User, bankAccount: BankAccount): Boolean
@@ -18,6 +19,8 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
     private val clock: Clock
 ): UserService {
+
+    override fun save(user: User): User = userRepository.save(user)
 
     override fun get(userId: Long): User = userRepository.getOne(userId)
 
