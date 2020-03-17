@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import java.time.Year
 
 interface OperationReport {
-    fun getAllYtd(): List<AccountReportDto> // TODO model then in controller Dto
+    fun getAllYtd(): List<AccountReportDto>
     fun getRejectedOperations(): List<Operation>
 }
 

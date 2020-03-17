@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import java.time.LocalDateTime
 
 interface OperationReportRepository : JpaRepository<Operation, Long> {
+
     fun getAllByPaymentDateTimeGreaterThanEqualAndUser(paymentDateTime: LocalDateTime, user: User): List<Operation>
 
     @Query(
@@ -26,4 +27,5 @@ interface OperationReportRepository : JpaRepository<Operation, Long> {
         nativeQuery = true
     )
     fun getRejectedOperations(): List<Operation>
+
 }

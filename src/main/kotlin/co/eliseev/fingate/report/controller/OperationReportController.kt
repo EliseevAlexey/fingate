@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class OperationReportController(private val operationReport: OperationReport) {
 
     @GetMapping("/ytd")
-    fun getAllYtd(): List<AccountReportDto> = operationReport.getAllYtd() // TODO toDto()
+    fun getAllYtd(): List<AccountReportDto> = operationReport.getAllYtd()
 
     @GetMapping("/rejected")
     fun getRejectedOperations(): List<OperationDto> = operationReport.getRejectedOperations().toDto()
