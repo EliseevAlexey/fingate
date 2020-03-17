@@ -20,7 +20,7 @@ import javax.validation.Valid
 class BankAccountController(private val bankAccountService: BankAccountService) {
 
     @PostMapping
-    fun createAccount(@RequestBody @Valid bankAccountDto: BankAccountDto): BankAccountDto =
+    fun createAccount(@Valid @RequestBody bankAccountDto: BankAccountDto): BankAccountDto =
         bankAccountDto.toModel()
             .let { bankAccountService.create(it) }
             .toDto()

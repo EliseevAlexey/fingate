@@ -1,7 +1,7 @@
 package co.eliseev.fingate.core.controller.handler
 
 import co.eliseev.fingate.core.model.dto.MessageDto
-import co.eliseev.fingate.core.model.dto.RestMessagesDto
+import co.eliseev.fingate.core.model.dto.RestResponseMessagesDto
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Component
 import java.util.Locale
@@ -12,7 +12,7 @@ interface ExceptionMessageConverter {
         locale: Locale = Locale.ROOT,
         param: Any?,
         params: Array<Any>?
-    ): RestMessagesDto
+    ): RestResponseMessagesDto
 }
 
 @Component
@@ -25,10 +25,10 @@ class ExceptionMessageConverterImpl(
         locale: Locale,
         param: Any?,
         params: Array<Any>?
-    ): RestMessagesDto {
+    ): RestResponseMessagesDto {
         val allParams = param?.let { arrayOf(param) } ?: params
         val message = messageSource.getMessage(messageCode, allParams, locale)
-        return RestMessagesDto(error = MessageDto(message))
+        return RestResponseMessagesDto(error = MessageDto(message))
     }
 
 }

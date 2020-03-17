@@ -1,9 +1,5 @@
 package co.eliseev.fingate.core.model.dto
 
-data class RestMessagesDto(
-    val error: MessageDto
-)
+data class RestResponseMessagesDto(val error: MessageDto)
 
-data class MessageDto(
-    val message: String
-)
+data class MessageDto(val message: String)

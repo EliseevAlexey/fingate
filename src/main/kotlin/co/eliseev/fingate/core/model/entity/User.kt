@@ -52,7 +52,6 @@ class User(
         private const val JOIN_TABLE = "user_roles"
         private const val JOIN_COLUMN = "user_id"
         private const val INVERSE_JOIN_COLUMN = "role_id"
-
     }
 
 }

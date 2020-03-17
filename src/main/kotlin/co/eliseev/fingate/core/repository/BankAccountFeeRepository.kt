@@ -6,5 +6,5 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface BankAccountFeeRepository: JpaRepository<BankAccountFee, Long> {
-    fun findBySystemAndFeeFrequency(system: CardSystem?, feeFrequency: FeeFrequency?): BankAccountFee?
+    fun findByCardSystemAndFeeFrequency(system: CardSystem?, feeFrequency: FeeFrequency?): BankAccountFee?
 }

@@ -11,7 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = Operation.TABLE_NAME)
-data class Operation(
+class Operation(
 
     @Column(name = "withdraw_service_name")
     val withdrawServiceName: String,

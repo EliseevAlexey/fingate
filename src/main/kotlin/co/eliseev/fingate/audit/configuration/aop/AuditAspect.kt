@@ -1,8 +1,9 @@
 package co.eliseev.fingate.audit.configuration.aop
 
-import co.eliseev.fingate.audit.entity.UserAction
-import co.eliseev.fingate.audit.service.UserActionService
+import co.eliseev.fingate.audit.entity.AuditUserAction
+import co.eliseev.fingate.audit.service.AuditUserActionService
 import co.eliseev.fingate.security.service.SecurityService
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -13,19 +14,21 @@ import java.time.LocalDateTime
 @Aspect
 @Component
 class AuditAspect(
-    private val userActionService: UserActionService,
+    private val auditUserActionService: AuditUserActionService,
     private val securityService: SecurityService,
-    private val clock: Clock
+    private val clock: Clock,
+    private val objectMapper: ObjectMapper
 ) {
 
     @Before(value = "within(co.eliseev.fingate.*.controller..*)")
     fun audit(joinPoint: JoinPoint) {
-        UserAction(
+        AuditUserAction(
             userId = securityService.getCurrentUser().id!!,
             className = joinPoint.target.javaClass.canonicalName,
             functionName = joinPoint.signature.name,
-            args = joinPoint.args.toList().toString(),
+            args = objectMapper.writeValueAsString(joinPoint.args),
             savedAt = LocalDateTime.now(clock)
-        ).also { userActionService.save(it) }
+        ).also { auditUserActionService.save(it) }
     }
+
 }

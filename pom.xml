@@ -141,6 +141,11 @@
                         <plugin>spring</plugin>
                         <plugin>jpa</plugin>
                     </compilerPlugins>
+                    <pluginOptions>
+                        <option>spring:annotation=javax.persistence.Entity</option>
+                        <option>spring:annotation=javax.persistence.MappedSuperclass</option>
+                        <option>spring:annotation=javax.persistence.Embeddable</option>
+                    </pluginOptions>
                 </configuration>
                 <dependencies>
                     <dependency>

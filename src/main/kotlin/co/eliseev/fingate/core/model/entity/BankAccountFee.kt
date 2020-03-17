@@ -9,11 +9,11 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = BankAccountFee.TABLE_NAME)
-data class BankAccountFee(
+class BankAccountFee(
 
-    @Column(name = "system")
+    @Column(name = "card_system")
     @Enumerated(EnumType.STRING)
-    val system: CardSystem,
+    val cardSystem: CardSystem,
 
     @Column(name = "fee_frequency")
     @Enumerated(EnumType.STRING)

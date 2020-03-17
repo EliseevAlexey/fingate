@@ -1,5 +1,6 @@
 package co.eliseev.fingate.core.service
 
+import co.eliseev.fingate.core.configuration.FREE_ACCOUNT_NUMBER_THRESHOLD
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.BankAccountFee
 import co.eliseev.fingate.core.model.entity.CardSystem
@@ -7,6 +8,7 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.repository.BankAccountFeeRepository
 import co.eliseev.fingate.core.repository.BankAccountRepository
 import co.eliseev.fingate.core.service.exception.BankAccountFeeNotFoundException
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 interface BankAccountFeeService {
@@ -17,30 +19,30 @@ interface BankAccountFeeService {
 @Component
 class BankAccountFeeServiceImpl(
     private val bankAccountFeeRepository: BankAccountFeeRepository,
-    private val bankAccountService: BankAccountRepository // FIXME call service
+    private val bankAccountService: BankAccountRepository, // FIXME call service
+    @Value("\${fingate.free_account_number_threshold}") private val freeAccountNumberThreshold: Long
 ) : BankAccountFeeService {
 
     override fun applyFee(bankAccount: BankAccount) {
-        if (countCurrentAccounts(bankAccount) > FEE_THRESHOLD) {
+        if (isNotFreeAccount(bankAccount)) {
             setFee(bankAccount)
         }
     }
 
+    private fun isNotFreeAccount(bankAccount: BankAccount) =
+        countCurrentAccounts(bankAccount) > freeAccountNumberThreshold
+
     private fun countCurrentAccounts(bankAccount: BankAccount): Long =
-        bankAccountService.countAllByIssuer(bankAccount.issuer!!) // FIXME find by users
+        bankAccountService.countAllByUser(bankAccount.user!!)
 
     private fun setFee(bankAccount: BankAccount) {
-        bankAccount.bankAccountFee = getFee(bankAccount.system, bankAccount.feeFrequency)
+        bankAccount.bankAccountFee = getFee(bankAccount.cardSystem, bankAccount.feeFrequency)
     }
 
     private fun getFee(system: CardSystem?, feeFrequency: FeeFrequency?) =
-        bankAccountFeeRepository.findBySystemAndFeeFrequency(system, feeFrequency)
+        bankAccountFeeRepository.findByCardSystemAndFeeFrequency(system, feeFrequency)
             ?: throw BankAccountFeeNotFoundException("bank_account_fee.not_found", arrayOf(system, feeFrequency))
 
     override fun getAll(): List<BankAccountFee> = bankAccountFeeRepository.findAll()
-
-    companion object {
-        private const val FEE_THRESHOLD = 2 // TODO move to properties
-    }
 
 }

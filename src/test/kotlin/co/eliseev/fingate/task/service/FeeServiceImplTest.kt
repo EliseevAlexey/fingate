@@ -133,13 +133,13 @@ internal class FeeServiceImplTest {
         lastFeeWithdrawDate: LocalDate,
         bankAccountFee: BankAccountFee
     ) = BankAccount(
-        number = 9990,
+        cardNumber = 9990,
         currency = "USD",
-        cvv = 999,
-        system = CardSystem.MASTER_CARD,
-        type = CardType.CREDIT,
+        cardCvvNumber = 999,
+        cardSystem = CardSystem.MASTER_CARD,
+        cardType = CardType.CREDIT,
         feeFrequency = feeFrequency,
-        expirationDateTime = LocalDateTime.now(),
+        cardExpirationDateTime = LocalDateTime.now(),
         lastFeeWithdrawDate = lastFeeWithdrawDate,
         registrationDate = testDate,
         bankAccountFee = bankAccountFee
@@ -159,25 +159,25 @@ internal class FeeServiceImplTest {
 
         private val defaultAccount = BankAccount(
             currency = "RUB",
-            cvv = 0,
-            expirationDateTime = LocalDateTime.now().plusYears(1),
+            cardCvvNumber = 0,
+            cardExpirationDateTime = LocalDateTime.now().plusYears(1),
             feeFrequency = FeeFrequency.MONTHLY,
-            number = 0,
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardNumber = 0,
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             lastFeeWithdrawDate = testDate,
             registrationDate = testDate,
             name = "testName"
         ).apply { id = 1L }
 
         private val masterCardMonthlyBankAccountFee = BankAccountFee(
-            system = CardSystem.MASTER_CARD,
+            cardSystem = CardSystem.MASTER_CARD,
             feeFrequency = FeeFrequency.MONTHLY,
             value = 100.toBigDecimal()
         ).apply { id = 1L }
 
         private val masterCardYearlyBankAccountFee = BankAccountFee(
-            system = CardSystem.MASTER_CARD,
+            cardSystem = CardSystem.MASTER_CARD,
             feeFrequency = FeeFrequency.YEARLY,
             value = 1000.toBigDecimal()
         ).apply { id = 1L }

@@ -111,12 +111,12 @@ internal class OperationControllerTest {
     companion object {
         private const val OPERATIONS_PATH = "/operations"
         private val testBankAccount = BankAccount(
-            number = 9990,
+            cardNumber = 9990,
             currency = "USD",
-            cvv = 999,
-            expirationDateTime = LocalDateTime.now(),
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardCvvNumber = 999,
+            cardExpirationDateTime = LocalDateTime.now(),
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             feeFrequency = FeeFrequency.MONTHLY,
             registrationDate = LocalDate.now()
         ).apply { id = 1L }

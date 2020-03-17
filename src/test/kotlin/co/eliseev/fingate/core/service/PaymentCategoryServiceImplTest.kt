@@ -43,7 +43,7 @@ internal class PaymentCategoryServiceImplTest {
     fun create() {
         val paymentCategoryModel = PaymentCategoryModel(name = "testName")
         val paymentCategory = paymentCategoryModel.toEntity()
-        val expected = paymentCategory.copy().apply { id = 1L }
+        val expected = paymentCategoryModel.toEntity().apply { id = 1L }
         whenever(paymentCategoryRepository.save(paymentCategory)).thenReturn(expected)
 
         val actual = paymentCategoryService.create(paymentCategoryModel)

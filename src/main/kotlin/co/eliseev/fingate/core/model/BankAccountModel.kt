@@ -9,12 +9,13 @@ import java.time.LocalDateTime
 
 data class BankAccountModel(
     val name: String? = null,
-    val number: Long? = null,
-    val expirationDate: LocalDateTime? = null,
-    val cvv: Int? = null,
-    val type: CardType? = null,
+    val cardNumber: Long? = null,
+    val cardIssuer: String? = null,
+    val cardExpirationDateTime: LocalDateTime? = null,
+    val cardCvvNumber: Int? = null,
+    val cardType: CardType? = null,
     val currency: String? = null,
-    val system: CardSystem? = null,
+    val cardSystem: CardSystem? = null,
     val balance: BigDecimal? = null,
     val feeFrequency: FeeFrequency? = null,
     val registrationDate: LocalDate? = null,

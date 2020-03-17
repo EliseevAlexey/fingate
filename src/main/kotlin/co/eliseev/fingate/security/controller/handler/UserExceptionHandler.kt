@@ -1,7 +1,7 @@
 package co.eliseev.fingate.security.controller.handler
 
 import co.eliseev.fingate.core.controller.handler.ExceptionMessageConverter
-import co.eliseev.fingate.core.model.dto.RestMessagesDto
+import co.eliseev.fingate.core.model.dto.RestResponseMessagesDto
 import co.eliseev.fingate.security.service.exception.UserByEmailNotFoundException
 import co.eliseev.fingate.security.service.exception.UserByIdNotFoundException
 import org.springframework.http.HttpStatus
@@ -18,14 +18,14 @@ class UserExceptionHandler(private val exceptionMessageConverter: ExceptionMessa
     fun handleUserByIdNotFoundException(
         ex: UserByIdNotFoundException,
         locale: Locale
-    ): RestMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
     @ExceptionHandler(UserByEmailNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleUserByEmailNotFoundException(
         ex: UserByEmailNotFoundException,
         locale: Locale
-    ): RestMessagesDto =
+    ): RestResponseMessagesDto =
         exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

@@ -32,7 +32,7 @@ class BankAccountServiceImpl(
 ) : BankAccountService {
 
     override fun create(bankAccountModel: BankAccountModel): BankAccount =
-        bankAccountModel.toEntity(getCurrentUser(), getToday()).let { account ->
+        bankAccountModel.toEntity(getCurrentUser(), getCurrentUser(), getToday()).let { account ->
             bankAccountFeeService.applyFee(account)
             bankAccountRepository.save(account).also {
                 notifyNewAccountCreation()
@@ -43,7 +43,7 @@ class BankAccountServiceImpl(
 
     override fun get(accountId: Long): BankAccount = getOne(accountId)
 
-    override fun getDefaultAccount(): BankAccount = bankAccountRepository.getByDefaultTrue()
+    override fun getDefaultAccount(): BankAccount = bankAccountRepository.getByIsDefaultAccountTrue()
 
     private fun getToday() = LocalDate.now(clock)
 
@@ -54,7 +54,7 @@ class BankAccountServiceImpl(
             true
         }
 
-    override fun getAll(): List<BankAccount> = bankAccountRepository.getAllByIssuer(getCurrentUser())
+    override fun getAll(): List<BankAccount> = bankAccountRepository.getAllByUser(getCurrentUser())
 
     @Transactional
     override fun setBalance(balance: BigDecimal, accountId: Long): BankAccount =
@@ -67,6 +67,6 @@ class BankAccountServiceImpl(
         bankAccountRepository.findById(accountId)
             .orElseThrow { BankAccountNotFoundException("bank_account.not_found", accountId) }
 
-    override fun countAllByIssuer(issuer: User): Long = bankAccountRepository.countAllByIssuer(issuer)
+    override fun countAllByIssuer(issuer: User): Long = bankAccountRepository.countAllByUser(issuer)
 
 }

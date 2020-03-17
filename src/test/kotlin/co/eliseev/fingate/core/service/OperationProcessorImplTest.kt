@@ -35,12 +35,12 @@ internal class OperationProcessorImplTest {
         val operationStatus = OperationStatus.NEW
         val account = BankAccount(
             currency = "RUB",
-            cvv = 100,
-            expirationDateTime = LocalDateTime.now(),
+            cardCvvNumber = 100,
+            cardExpirationDateTime = LocalDateTime.now(),
             feeFrequency = FeeFrequency.MONTHLY,
-            number = 1111222233334444,
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardNumber = 1111222233334444,
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             registrationDate = LocalDate.now()
         ).apply { id = 1L }
         val paymentCategory = PaymentCategory(

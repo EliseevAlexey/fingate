@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.validation.Valid
 
 @RestController
 @HasAdminOrUserRights
@@ -23,7 +22,7 @@ class PaymentCategoryController(private val paymentCategoryService: PaymentCateg
     fun getAll(): List<PaymentCategoryDto> = paymentCategoryService.getAll().toDto()
 
     @PostMapping
-    fun createPaymentCategory(@Valid @RequestBody paymentCategoryDto: PaymentCategoryDto): PaymentCategoryDto =
+    fun createPaymentCategory(@RequestBody paymentCategoryDto: PaymentCategoryDto): PaymentCategoryDto =
         paymentCategoryDto.toModel()
             .let { paymentCategoryService.create(it) }
             .toDto()

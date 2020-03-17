@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 class GiftController(private val giftService: GiftService) {
 
     @GetMapping
-    fun getByType(@RequestParam("giftType") giftType: GiftType): Gift = giftService.getByType(giftType)
+    fun getByType(@RequestParam("giftType") giftType: GiftType): Gift = giftService.getByType(giftType) // TODO toDto
 
 }

@@ -6,30 +6,34 @@ import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.User
 import java.time.LocalDate
 
-fun BankAccountModel.toEntity(issuer: User, registrationDate: LocalDate) =
-    BankAccount(
+fun BankAccountModel.toEntity(
+    cardIssuer: User, // FIXME another entity
+    user: User,
+    registrationDate: LocalDate
+) = BankAccount(
         name = this.name,
-        issuer = issuer,
-        number = this.number,
-        expirationDateTime = this.expirationDate,
-        cvv = this.cvv,
-        type = this.type,
+        cardIssuer = cardIssuer,
+        cardNumber = this.cardNumber,
+        cardExpirationDateTime = this.cardExpirationDateTime,
+        cardCvvNumber = this.cardCvvNumber,
+        cardType = this.cardType,
         currency = this.currency,
-        system = this.system,
+        cardSystem = this.cardSystem,
         feeFrequency = this.feeFrequency,
         lastFeeWithdrawDate = this.lastFeeWithdrawDate,
-        registrationDate = registrationDate
+        registrationDate = registrationDate,
+        user = user
     )
 
 fun BankAccountDto.toModel() =
     BankAccountModel(
         name = this.name,
-        number = this.number,
-        expirationDate = this.expirationDate,
-        cvv = this.cvv,
-        type = this.type,
+        cardNumber = this.cardNumber,
+        cardExpirationDateTime = this.expirationDateTime,
+        cardCvvNumber = this.cardCvvNumber,
+        cardType = this.cardType,
         currency = this.currency,
-        system = this.system,
+        cardSystem = this.cardSystem,
         feeFrequency = this.feeFrequency,
         registrationDate = this.registrationDate,
         lastFeeWithdrawDate = this.lastFeeWithdrawDate
@@ -39,12 +43,12 @@ fun BankAccount.toDto() =
     BankAccountDto(
         id = this.id,
         name = this.name,
-        number = this.number,
-        expirationDate = this.expirationDateTime,
-        cvv = this.cvv,
-        type = this.type,
+        cardNumber = this.cardNumber,
+        expirationDateTime = this.cardExpirationDateTime,
+        cardCvvNumber = this.cardCvvNumber,
+        cardType = this.cardType,
         currency = this.currency,
-        system = this.system,
+        cardSystem = this.cardSystem,
         balance = this.balance,
         feeFrequency = this.feeFrequency,
         bankAccountFeeDto = this.bankAccountFee?.toDto(),

@@ -1,6 +1,6 @@
 package co.eliseev.fingate.core.controller.handler
 
-import co.eliseev.fingate.core.model.dto.RestMessagesDto
+import co.eliseev.fingate.core.model.dto.RestResponseMessagesDto
 import co.eliseev.fingate.core.service.exception.PaymentCategoryAlreadyExists
 import co.eliseev.fingate.core.service.exception.PaymentCategoryNotFoundException
 import org.springframework.http.HttpStatus
@@ -17,13 +17,13 @@ class PaymentCategoryExceptionHandler(private val exceptionMessageConverter: Exc
     fun handlePaymentCategoryNotFoundException(
         ex: PaymentCategoryNotFoundException,
         locale: Locale
-    ): RestMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
     @ExceptionHandler(PaymentCategoryAlreadyExists::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handlePaymentCategoryAlreadyExists(
         ex: PaymentCategoryAlreadyExists,
         locale: Locale
-    ): RestMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

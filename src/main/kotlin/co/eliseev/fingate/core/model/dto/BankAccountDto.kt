@@ -15,12 +15,12 @@ import javax.validation.constraints.Size
 data class BankAccountDto(
     val id: Long? = null,
     val name: String? = null,
-    val number: Long? = null,
-    val expirationDate: LocalDateTime? = null,
-    @field:Positive val cvv: Int? = null,
-    val type: CardType? = null,
+    val cardNumber: Long? = null,
+    val expirationDateTime: LocalDateTime? = null, // FIXME json
+    @field:Positive val cardCvvNumber: Int? = null,
+    val cardType: CardType? = null,
     @field:Size(min = CURRENCY_LENGTH, max = CURRENCY_LENGTH) val currency: String? = null,
-    val system: CardSystem? = null,
+    val cardSystem: CardSystem? = null,
     val balance: BigDecimal? = null,
     val feeFrequency: FeeFrequency? = null,
     val registrationDate: LocalDate? = null,

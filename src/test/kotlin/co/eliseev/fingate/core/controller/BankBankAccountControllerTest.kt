@@ -1,6 +1,5 @@
 package co.eliseev.fingate.core.controller
 
-import co.eliseev.fingate.core.controller.BankAccountController
 import co.eliseev.fingate.core.controller.handler.BankAccountExceptionHandler
 import co.eliseev.fingate.core.controller.handler.ExceptionMessageConverter
 import co.eliseev.fingate.core.model.converter.toEntity
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.MessageSource
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
@@ -58,17 +56,17 @@ internal class BankBankAccountControllerTest {
     @Test
     fun testCreateAccount() {
         val accountDto = BankAccountDto(
-            number = 9990,
+            cardNumber = 9990,
             currency = "USD",
-            cvv = 999,
-            expirationDate = LocalDateTime.now(),
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardCvvNumber = 999,
+            expirationDateTime = LocalDateTime.now(),
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             feeFrequency = FeeFrequency.MONTHLY
         )
         val accountModel = accountDto.toModel()
         val user = User("someEmail", "somePassword").apply { id = 1L }
-        val account = accountModel.toEntity(user, LocalDate.now(clock))
+        val account = accountModel.toEntity(user, user, LocalDate.now(clock))
         whenever(bankAccountService.create(accountModel)).thenReturn(account)
 
         mockMvc.post(ACCOUNTS_PATH) {

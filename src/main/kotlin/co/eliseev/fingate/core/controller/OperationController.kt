@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.validation.Valid
 
 @RestController
 @RequestMapping("/operations")
@@ -23,10 +22,10 @@ class OperationController(private val operationService: OperationService) {
 
     @PostMapping
     @HasAdminOrUserRights
-    fun create(@Valid @RequestBody operationDto: OperationDto): OperationDto =
-        operationDto.toModel().let {
-            operationService.create(it)
-        }.toDto()
+    fun create(@RequestBody operationDto: OperationDto): OperationDto =
+        operationDto.toModel()
+            .let { operationService.create(it) }
+            .toDto()
 
     @GetMapping
     @HasAdminOrUserRights

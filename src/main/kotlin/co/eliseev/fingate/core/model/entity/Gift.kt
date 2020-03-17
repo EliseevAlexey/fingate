@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = Gift.TABLE_NAME)
-data class Gift(
+class Gift(
 
     @Column(name = "gift_type", unique = true)
     @Enumerated(EnumType.STRING)

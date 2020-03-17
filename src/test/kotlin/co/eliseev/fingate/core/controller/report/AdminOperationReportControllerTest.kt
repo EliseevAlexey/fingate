@@ -16,7 +16,6 @@ import co.eliseev.fingate.util.TestSecurityConfiguration
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.tomcat.jni.Local
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -67,12 +66,12 @@ internal class AdminOperationReportControllerTest {
     companion object {
         private const val OPERATION_REPORTS_PATH = "/reports"
         private val testBankAccount = BankAccount(
-            number = 9990,
+            cardNumber = 9990,
             currency = "USD",
-            cvv = 999,
-            expirationDateTime = LocalDateTime.now(),
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardCvvNumber = 999,
+            cardExpirationDateTime = LocalDateTime.now(),
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             feeFrequency = FeeFrequency.MONTHLY,
             registrationDate = LocalDate.now()
         ).apply { id = 1L }

@@ -2,11 +2,9 @@ package co.eliseev.fingate.core.model.dto
 
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
-import org.springframework.validation.annotation.Validated
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-@Validated
 data class OperationDto(
     val id: Long? = null,
     val withdrawServiceName: String,

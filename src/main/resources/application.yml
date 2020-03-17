@@ -10,6 +10,7 @@ spring:
     properties.hibernate.format_sql: true
 
 fingate:
+  free_account_number_threshold: 2
   tasks:
     fees.schedule: 0 0 9 ? * MON-FRI
     gifts.birthday.schedule: 0 0 9 ? * MON-FRI

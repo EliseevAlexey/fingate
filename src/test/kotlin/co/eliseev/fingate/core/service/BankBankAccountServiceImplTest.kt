@@ -49,22 +49,22 @@ internal class BankBankAccountServiceImplTest {
     @Test
     fun testCreate() {
         val accountModel = BankAccountModel(
-            number = 9990,
+            cardNumber = 9990,
             currency = "USD",
-            cvv = 999,
-            expirationDate = LocalDateTime.now(),
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardCvvNumber = 999,
+            cardExpirationDateTime = LocalDateTime.now(),
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             feeFrequency = FeeFrequency.YEARLY
         )
         val expected = BankAccount(
-            issuer = testUser,
-            number = accountModel.number,
+            cardIssuer = testUser,
+            cardNumber = accountModel.cardNumber,
             currency = accountModel.currency,
-            cvv = accountModel.cvv,
-            expirationDateTime = accountModel.expirationDate,
-            system = accountModel.system,
-            type = accountModel.type,
+            cardCvvNumber = accountModel.cardCvvNumber,
+            cardExpirationDateTime = accountModel.cardExpirationDateTime,
+            cardSystem = accountModel.cardSystem,
+            cardType = accountModel.cardType,
             feeFrequency = FeeFrequency.YEARLY,
             registrationDate = testDate
         )
@@ -99,7 +99,7 @@ internal class BankBankAccountServiceImplTest {
     fun testGetAll() {
         mockUser()
         val accounts = listOf(testAccount)
-        whenever(accountRepository.getAllByIssuer(testUser)).thenReturn(accounts)
+        whenever(accountRepository.getAllByUser(testUser)).thenReturn(accounts)
 
         val actual = bankAccountService.getAll()
         assertEquals(accounts, actual)
@@ -139,12 +139,12 @@ internal class BankBankAccountServiceImplTest {
             Clock.fixed(testDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
         private val testUser = User("testEmail", "testPassword").apply { id = 1 }
         private val testAccount = BankAccount(
-            number = 9990,
+            cardNumber = 9990,
             currency = "USD",
-            cvv = 999,
-            expirationDateTime = testDateTime,
-            system = CardSystem.MASTER_CARD,
-            type = CardType.CREDIT,
+            cardCvvNumber = 999,
+            cardExpirationDateTime = testDateTime,
+            cardSystem = CardSystem.MASTER_CARD,
+            cardType = CardType.CREDIT,
             feeFrequency = FeeFrequency.YEARLY,
             registrationDate = testDate
         ).apply { id = 1L }
