@@ -43,9 +43,8 @@ class AuthTokenFilter(
         } else null
     }
 
-    private fun isValid(jwt: String?): Boolean {
-        return jwt != null && jwtService.validateJwtToken(jwt)
-    }
+    private fun isValid(jwt: String?): Boolean =
+        jwt != null && jwtService.validateJwtToken(jwt)
 
     private fun createAuthentication(jwt: String, request: HttpServletRequest): UsernamePasswordAuthenticationToken =
         getUserDetails(jwt).let { userDetails ->

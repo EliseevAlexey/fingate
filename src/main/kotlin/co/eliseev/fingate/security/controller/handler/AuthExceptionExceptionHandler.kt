@@ -17,6 +17,7 @@ class AuthExceptionExceptionHandler(private val exceptionMessageConverter: Excep
     fun handleEmailDuplicateException(
         ex: EmailDuplicateException,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

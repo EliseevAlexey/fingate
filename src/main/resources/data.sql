@@ -1,6 +1,7 @@
 -- Administrator
 INSERT INTO users (email, password)
-VALUES ('admin', 'admin');
+VALUES ('anonymousUser', 'anonymousUser'),
+       ('admin', 'admin');
 
 -- Test account fees
 INSERT INTO bank_account_fees (fee_frequency, card_system, value)

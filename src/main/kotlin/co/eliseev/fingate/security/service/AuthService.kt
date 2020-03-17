@@ -53,7 +53,7 @@ class AuthServiceImpl(
     }
 
     private fun saveNewUser(signUpRequest: SignUpRequest) {
-        createUser(signUpRequest).also {
+        createUser(signUpRequest).let {
             securityUserService.save(it)
         }
     }
@@ -85,7 +85,7 @@ class AuthServiceImpl(
     fun getRole(userRole: UserRole): Role = roleService.getByName(userRole)
 
     override fun signIn(sighInRequest: SignInRequest): SignInResponse {
-        createAuthentication(sighInRequest).also {
+        createAuthentication(sighInRequest).let {
             setToContext(it)
             return createSingInResponse(it)
         }

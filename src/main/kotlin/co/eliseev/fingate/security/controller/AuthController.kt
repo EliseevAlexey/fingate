@@ -16,9 +16,11 @@ import javax.validation.Valid
 class AuthController(private val authService: AuthService) {
 
     @PostMapping("/sign-up")
-    fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest): SignUpResponse = authService.singUp(signUpRequest)
+    fun signUp(@Valid @RequestBody signUpRequest: SignUpRequest): SignUpResponse =
+        authService.singUp(signUpRequest)
 
     @PostMapping("/sign-in")
-    fun signIn(@RequestBody @Valid signInRequest: SignInRequest): SignInResponse = authService.signIn(signInRequest)
+    fun signIn(@Valid @RequestBody signInRequest: SignInRequest): SignInResponse =
+        authService.signIn(signInRequest)
 
 }
