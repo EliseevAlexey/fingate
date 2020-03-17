@@ -2,7 +2,7 @@ package co.eliseev.fingate.audit.configuration.aop
 
 import co.eliseev.fingate.audit.entity.UserAction
 import co.eliseev.fingate.audit.service.UserActionService
-import co.eliseev.fingate.core.service.SecurityService
+import co.eliseev.fingate.security.service.SecurityService
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @Aspect
 @Component
-class LoggingAspect(
+class AuditAspect(
     private val userActionService: UserActionService,
     private val securityService: SecurityService,
     private val clock: Clock

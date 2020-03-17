@@ -1,7 +1,7 @@
 package co.eliseev.fingate.notification.service
 
 import co.eliseev.fingate.core.model.entity.User
-import co.eliseev.fingate.core.service.SecurityService
+import co.eliseev.fingate.security.service.SecurityService
 import co.eliseev.fingate.notification.model.UserNotificationModel
 import co.eliseev.fingate.notification.model.entity.UserNotification
 import co.eliseev.fingate.notification.repository.UserNotificationRepository

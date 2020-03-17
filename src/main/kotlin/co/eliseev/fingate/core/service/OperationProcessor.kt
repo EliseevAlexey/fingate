@@ -7,6 +7,7 @@ import co.eliseev.fingate.core.service.exception.IllegalOperationStatusException
 import co.eliseev.fingate.notification.model.event.FundEvent
 import co.eliseev.fingate.notification.model.event.RejectEvent
 import co.eliseev.fingate.notification.model.event.WithdrawEvent
+import co.eliseev.fingate.security.service.SecurityService
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 

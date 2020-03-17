@@ -8,6 +8,7 @@ import co.eliseev.fingate.core.model.entity.Operation
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.model.entity.PaymentCategory
+import co.eliseev.fingate.security.service.SecurityService
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import org.junit.jupiter.api.BeforeEach

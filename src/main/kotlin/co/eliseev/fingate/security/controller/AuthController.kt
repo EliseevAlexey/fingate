@@ -1,6 +1,8 @@
 package co.eliseev.fingate.security.controller
 
-import co.eliseev.fingate.security.model.dto.MessageResponse
+import co.eliseev.fingate.security.model.dto.SignInRequest
+import co.eliseev.fingate.security.model.dto.SignInResponse
+import co.eliseev.fingate.security.model.dto.SignUpResponse
 import co.eliseev.fingate.security.model.dto.SignUpRequest
 import co.eliseev.fingate.security.service.AuthService
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +16,9 @@ import javax.validation.Valid
 class AuthController(private val authService: AuthService) {
 
     @PostMapping("/sign-up")
-    fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest): MessageResponse =
-        authService.singUp(signUpRequest)
+    fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest): SignUpResponse = authService.singUp(signUpRequest)
+
+    @PostMapping("/sign-in")
+    fun signIn(@RequestBody @Valid signInRequest: SignInRequest): SignInResponse = authService.signIn(signInRequest)
 
 }

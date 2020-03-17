@@ -4,6 +4,7 @@ import co.eliseev.fingate.core.model.converter.toDto
 import co.eliseev.fingate.core.model.converter.toModel
 import co.eliseev.fingate.core.model.dto.PaymentCategoryDto
 import co.eliseev.fingate.core.service.PaymentCategoryService
+import co.eliseev.fingate.security.util.HasAdminOrUserRights
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
+@HasAdminOrUserRights
 @RequestMapping("/payment-categories")
 class PaymentCategoryController(private val paymentCategoryService: PaymentCategoryService) {
 

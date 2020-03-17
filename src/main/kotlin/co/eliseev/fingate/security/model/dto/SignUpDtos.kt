@@ -11,4 +11,4 @@ data class SignUpRequest(
     var password: @Size(min = 3, max = 40) String
 )
 
-data class MessageResponse(var message: String)
+data class SignUpResponse(var message: String)

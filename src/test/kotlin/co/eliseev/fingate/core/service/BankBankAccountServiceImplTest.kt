@@ -8,6 +8,7 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.model.entity.User
 import co.eliseev.fingate.core.repository.BankAccountRepository
 import co.eliseev.fingate.core.service.exception.BankAccountNotFoundException
+import co.eliseev.fingate.security.service.SecurityService
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset

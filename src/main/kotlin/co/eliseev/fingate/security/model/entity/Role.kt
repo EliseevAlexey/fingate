@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = Role.TABLE_NAME)
-data class Role(
+class Role(
 
     @Column(name = "name")
     @Enumerated(EnumType.STRING)

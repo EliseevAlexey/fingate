@@ -4,6 +4,7 @@ import co.eliseev.fingate.notification.model.converter.toDto
 import co.eliseev.fingate.notification.model.converter.toModel
 import co.eliseev.fingate.notification.model.dto.UserNotificationDto
 import co.eliseev.fingate.notification.service.UserNotificationService
+import co.eliseev.fingate.security.util.HasAdminOrUserRights
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@HasAdminOrUserRights
 @RequestMapping("/notifications/users/current-user")
 class UserNotificationController(private val userNotificationService: UserNotificationService) {
 

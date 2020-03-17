@@ -6,6 +6,7 @@ import co.eliseev.fingate.core.model.converter.toEntity
 import co.eliseev.fingate.core.model.entity.User
 import co.eliseev.fingate.core.repository.BankAccountRepository
 import co.eliseev.fingate.core.service.exception.BankAccountNotFoundException
+import co.eliseev.fingate.security.service.SecurityService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal

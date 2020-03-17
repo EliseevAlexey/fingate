@@ -14,7 +14,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = User.TABLE_NAME)
-data class User(
+class User(
 
     @Column(name = "email", nullable = false)
     val email: String,

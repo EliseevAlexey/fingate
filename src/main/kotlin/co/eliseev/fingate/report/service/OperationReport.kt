@@ -9,7 +9,7 @@ import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.report.repository.OperationReportRepository
 import co.eliseev.fingate.core.service.BankAccountService
-import co.eliseev.fingate.core.service.SecurityService
+import co.eliseev.fingate.security.service.SecurityService
 import org.springframework.stereotype.Component
 import java.time.Clock
 import java.time.LocalDateTime

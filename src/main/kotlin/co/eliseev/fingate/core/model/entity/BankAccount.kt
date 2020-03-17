@@ -12,7 +12,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = BankAccount.TABLE_NAME)
-data class BankAccount(
+class BankAccount(
 
     @ManyToOne
     val issuer: User? = null, // FIXME Bank

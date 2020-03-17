@@ -3,11 +3,13 @@ package co.eliseev.fingate.report.controller
 import co.eliseev.fingate.core.model.converter.toDto
 import co.eliseev.fingate.core.model.dto.OperationDto
 import co.eliseev.fingate.report.service.AdminOperationReport
+import co.eliseev.fingate.security.util.HasAdminRights
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@HasAdminRights
 @RequestMapping("/reports/admin/")
 class AdminOperationReportController(private val adminOperationReport: AdminOperationReport) {
 
