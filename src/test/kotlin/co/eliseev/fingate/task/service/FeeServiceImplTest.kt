@@ -9,6 +9,7 @@ import co.eliseev.fingate.core.model.entity.FeeFrequency
 import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.model.entity.PaymentCategory
+import co.eliseev.fingate.core.model.entity.User
 import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.core.service.PaymentCategoryService
@@ -22,6 +23,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
+import org.springframework.context.ApplicationEventPublisher
 import java.time.Clock
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -33,6 +35,7 @@ internal class FeeServiceImplTest {
     private val operationService = mock<OperationService>()
     private val paymentCategoryService = mock<PaymentCategoryService>()
     private val clock = mock<Clock>()
+    private val applicationEventPublisher = mock<ApplicationEventPublisher>()
     private lateinit var feeService: FeeService
 
     @BeforeEach
@@ -41,14 +44,16 @@ internal class FeeServiceImplTest {
             bankAccountService,
             operationService,
             paymentCategoryService,
-            clock
+            clock,
+            applicationEventPublisher
         )
         prepareClock()
         feeService = FeeServiceImpl(
             bankAccountService,
             operationService,
             paymentCategoryService,
-            clock
+            clock,
+            applicationEventPublisher
         )
     }
 
@@ -65,6 +70,7 @@ internal class FeeServiceImplTest {
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, never()).create(operationModel = any(), force = any())
+        verify(applicationEventPublisher, never()).publishEvent(any())
     }
 
     @Test
@@ -88,6 +94,7 @@ internal class FeeServiceImplTest {
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, times(1)).create(operationModel = operationModel, force = true)
+        verify(applicationEventPublisher, times(1)).publishEvent(any())
     }
 
     @Test
@@ -103,6 +110,8 @@ internal class FeeServiceImplTest {
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, never()).create(operationModel = any(), force = any())
+        verify(applicationEventPublisher, never()).publishEvent(any())
+
     }
 
 
@@ -126,6 +135,7 @@ internal class FeeServiceImplTest {
 
         feeService.checkAllAccountsAndWithdrawFee()
         verify(operationService, times(1)).create(operationModel = operationModel, force = true)
+        verify(applicationEventPublisher, times(1)).publishEvent(any())
     }
 
     private fun createBankAccountWithParameters(
@@ -142,7 +152,8 @@ internal class FeeServiceImplTest {
         cardExpirationDateTime = LocalDateTime.now(),
         lastFeeWithdrawDate = lastFeeWithdrawDate,
         registrationDate = testDate,
-        bankAccountFee = bankAccountFee
+        bankAccountFee = bankAccountFee,
+        user = testUser
     ).apply { id = 1L }
 
     private fun prepareClock() {
@@ -157,6 +168,11 @@ internal class FeeServiceImplTest {
         private val fixedClock =
             Clock.fixed(testDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
 
+        private val testUser = User(
+            email = "testEmail",
+            password = "testPassword"
+        ).apply { id = 1L }
+
         private val defaultAccount = BankAccount(
             currency = "RUB",
             cardCvvNumber = 0,
@@ -167,7 +183,8 @@ internal class FeeServiceImplTest {
             cardType = CardType.CREDIT,
             lastFeeWithdrawDate = testDate,
             registrationDate = testDate,
-            name = "testName"
+            name = "testName",
+            user = testUser
         ).apply { id = 1L }
 
         private val masterCardMonthlyBankAccountFee = BankAccountFee(

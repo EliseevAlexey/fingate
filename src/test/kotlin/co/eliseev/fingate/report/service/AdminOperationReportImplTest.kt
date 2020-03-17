@@ -1,4 +1,4 @@
-package co.eliseev.fingate.report
+package co.eliseev.fingate.report.service
 
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.CardSystem
@@ -9,8 +9,6 @@ import co.eliseev.fingate.core.model.entity.OperationStatus
 import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.model.entity.PaymentCategory
 import co.eliseev.fingate.report.repository.AdminOperationReportRepository
-import co.eliseev.fingate.report.service.AdminOperationReport
-import co.eliseev.fingate.report.service.AdminOperationReportImpl
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever

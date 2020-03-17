@@ -1,8 +1,7 @@
-package co.eliseev.fingate.core.controller.report
+package co.eliseev.fingate.report.controller
 
 import co.eliseev.fingate.core.controller.handler.BankAccountExceptionHandler
 import co.eliseev.fingate.core.controller.handler.ExceptionMessageConverter
-import co.eliseev.fingate.report.controller.AdminOperationReportController
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.CardSystem
 import co.eliseev.fingate.core.model.entity.CardType

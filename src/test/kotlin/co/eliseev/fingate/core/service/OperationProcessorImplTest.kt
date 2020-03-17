@@ -12,6 +12,7 @@ import co.eliseev.fingate.security.service.SecurityService
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.context.ApplicationEventPublisher
 
@@ -58,11 +59,13 @@ internal class OperationProcessorImplTest {
         operationProcessor.process(operation)
     }
 
+    @Disabled
     @Test
     fun `test reject withdraw operation`() {
         // TODO
     }
 
+    @Disabled
     @Test
     fun `test reject fund operation`() {
         // TODO

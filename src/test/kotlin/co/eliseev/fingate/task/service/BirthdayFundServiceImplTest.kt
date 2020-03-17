@@ -12,6 +12,7 @@ import co.eliseev.fingate.core.service.GiftService
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.core.service.PaymentCategoryService
 import co.eliseev.fingate.core.service.UserService
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.times
@@ -20,6 +21,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
+import org.springframework.context.ApplicationEventPublisher
 
 internal class BirthdayFundServiceImplTest {
 
@@ -28,17 +30,26 @@ internal class BirthdayFundServiceImplTest {
     private val giftService = mock<GiftService>()
     private val paymentCategoryService = mock<PaymentCategoryService>()
     private val bankAccountService = mock<BankAccountService>()
+    private val applicationEventPublisher = mock<ApplicationEventPublisher>()
     private lateinit var birthdayFundService: BirthdayFundService
 
     @BeforeEach
     fun resetMocks() {
-        reset(userService, operationService, giftService, paymentCategoryService, bankAccountService)
+        reset(
+            userService,
+            operationService,
+            giftService,
+            paymentCategoryService,
+            bankAccountService,
+            applicationEventPublisher
+        )
         birthdayFundService = BirthdayFundServiceImpl(
             userService,
             operationService,
             giftService,
             paymentCategoryService,
-            bankAccountService
+            bankAccountService,
+            applicationEventPublisher
         )
     }
 
@@ -69,6 +80,7 @@ internal class BirthdayFundServiceImplTest {
 
         birthdayFundService.checkBirthdayAndFund()
         verify(operationService, times(1)).create(operationModel)
+        verify(applicationEventPublisher, times(1)).publishEvent(any())
     }
 
 
