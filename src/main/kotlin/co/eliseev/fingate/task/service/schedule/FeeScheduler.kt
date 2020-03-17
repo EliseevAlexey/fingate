@@ -10,11 +10,10 @@ interface FeeScheduler {
 }
 
 @Component
-class FeeSchedulerImpl(private val feeService: FeeService) :
-    FeeScheduler {
+class FeeSchedulerImpl(private val feeService: FeeService) : FeeScheduler {
 
     @Scheduled(cron = "\${fingate.tasks.fees.schedule}")
-    override fun checkFee()  {
+    override fun checkFee() {
         logger.info("Scheduled checking all accounts and withdraw fee")
         feeService.checkAllAccountsAndWithdrawFee()
     }

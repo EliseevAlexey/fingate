@@ -27,10 +27,11 @@ class JwtServiceImpl(
 
     override fun generateJwtToken(authentication: CustomUserDetails): String {
         val now = Date()
+        val expirationDate = Date(now.time + jwtExpirationMillis)
         return Jwts.builder()
             .setSubject(authentication.getEmail())
             .setIssuedAt(now)
-            .setExpiration(Date(now.time + jwtExpirationMillis))
+            .setExpiration(expirationDate)
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact()
     }

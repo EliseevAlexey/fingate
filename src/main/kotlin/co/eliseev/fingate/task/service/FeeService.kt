@@ -9,6 +9,10 @@ import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.core.service.PaymentCategoryService
+import co.eliseev.fingate.notification.model.event.WithdrawEvent
+import co.eliseev.fingate.security.service.SecurityService
+import co.eliseev.fingate.task.service.exception.UnsupportedFeeFrequencyException
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
@@ -24,7 +28,9 @@ class FeeServiceImpl(
     private val bankAccountService: BankAccountService,
     private val operationService: OperationService,
     private val paymentCategoryService: PaymentCategoryService,
-    private val clock: Clock
+    private val clock: Clock,
+    private val applicationEventPublisher: ApplicationEventPublisher,
+    private val securityService: SecurityService
 ) : FeeService {
 
     @Transactional
@@ -55,7 +61,7 @@ class FeeServiceImpl(
         when (bankAccount.feeFrequency) {
             FeeFrequency.MONTHLY -> tryToWithDrawMonthlyFee(bankAccount, operationData)
             FeeFrequency.YEARLY -> tryToWithDrawYearlyFee(bankAccount, operationData)
-            else -> error("Unsupported Fee frequency ${bankAccount.feeFrequency}")
+            else -> throw UnsupportedFeeFrequencyException("fees.frequency.not_supported", bankAccount.feeFrequency)
         }
     }
 
@@ -65,29 +71,10 @@ class FeeServiceImpl(
             createOperationModel(bankAccount, operationData).also { operationModel ->
                 save(operationModel)
                 updateLastFeeWithdrawDate(bankAccount, today)
-                // TODO notify client
+                notifyAboutWithdraw()
             }
         }
     }
-
-    private fun updateLastFeeWithdrawDate(bankAccount: BankAccount, today: LocalDate) {
-        bankAccount.lastFeeWithdrawDate = today
-    }
-
-    private fun createOperationModel(
-        bankAccount: BankAccount,
-        operationData: OperationData
-    ) = OperationModel(
-        accountId = bankAccount.id!!,
-        operationStatus = OperationStatus.NEW,
-        operationType = OperationType.WITHDRAW,
-        paymentAmount = bankAccount.bankAccountFee?.value ?: defaultPayment,
-        paymentCategoryId = operationData.paymentCategoryId,
-        withdrawServiceName = operationData.defaultAccountName
-    )
-
-    private fun save(operationModel: OperationModel): Operation =
-        operationService.create(operationModel = operationModel, force = true)
 
     private fun isPeriodMoreThanMonth(bankAccount: BankAccount, today: LocalDate): Boolean =
         getPeriod(bankAccount, today).months > 0
@@ -97,13 +84,35 @@ class FeeServiceImpl(
         return Period.between(from, today)
     }
 
+    private fun createOperationModel(
+        bankAccount: BankAccount,
+        operationData: OperationData
+    ) =
+        OperationModel(
+            accountId = bankAccount.id!!,
+            operationStatus = OperationStatus.NEW,
+            operationType = OperationType.WITHDRAW,
+            paymentAmount = bankAccount.bankAccountFee?.value ?: defaultPayment,
+            paymentCategoryId = operationData.paymentCategoryId,
+            withdrawServiceName = operationData.defaultAccountName
+        )
+    private fun save(operationModel: OperationModel): Operation =
+        operationService.create(operationModel = operationModel, force = true)
+
+    private fun updateLastFeeWithdrawDate(bankAccount: BankAccount, today: LocalDate) {
+        bankAccount.lastFeeWithdrawDate = today
+    }
+
+    private fun notifyAboutWithdraw() =
+        applicationEventPublisher.publishEvent(WithdrawEvent(securityService.getCurrentUser()))
+
     private fun tryToWithDrawYearlyFee(bankAccount: BankAccount, operationData: OperationData) {
         val today = operationData.today
         if (isPeriodMoreThanYear(bankAccount, today)) {
             createOperationModel(bankAccount, operationData).also { operationModel ->
                 save(operationModel)
                 updateLastFeeWithdrawDate(bankAccount, today)
-                // TODO notify client
+                notifyAboutWithdraw()
             }
         }
     }

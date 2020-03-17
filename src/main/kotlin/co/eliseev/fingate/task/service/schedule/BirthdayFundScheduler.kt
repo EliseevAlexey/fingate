@@ -10,8 +10,7 @@ interface BirthdayFundScheduler {
 }
 
 @Component
-class BirthdayFundSchedulerImpl(private val birthdayFundService: BirthdayFundService) :
-    BirthdayFundScheduler {
+class BirthdayFundSchedulerImpl(private val birthdayFundService: BirthdayFundService) : BirthdayFundScheduler {
 
     @Scheduled(cron = "\${fingate.tasks.gifts.birthday.schedule}")
     override fun checkBirthday() {
