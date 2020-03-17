@@ -14,7 +14,7 @@ interface UserNotificationService {
     fun getBy(user: User): UserNotification
     fun getCurrentUserNotification(): UserNotification
     fun addNotificationToCurrentUser(notificationId: Long): UserNotification
-    fun deleteNotificationToCurrentUser(notificationId: Long): UserNotification
+    fun deleteCurrentUserNotification(notificationId: Long): UserNotification
 }
 
 @Service
@@ -24,15 +24,18 @@ class UserNotificationServiceImpl(
     private val securityService: SecurityService
 ) : UserNotificationService {
 
-    override fun create(userNotificationModel: UserNotificationModel): UserNotification {
-        val userNotification = UserNotification(
+    override fun create(userNotificationModel: UserNotificationModel): UserNotification =
+        createCurrentUserNotifications(userNotificationModel)
+            .let { userNotificationRepository.save(it) }
+
+    private fun createCurrentUserNotifications(userNotificationModel: UserNotificationModel): UserNotification {
+        return UserNotification(
             user = getCurrentUser(),
             enabledNotifications = notificationService.getByIds(userNotificationModel.notificationIds).toMutableSet()
         )
-        return userNotificationRepository.save(userNotification)
     }
 
-    private fun getCurrentUser() = securityService.getCurrentUser()
+    private fun getCurrentUser(): User = securityService.getCurrentUser()
 
     override fun getCurrentUserNotification(): UserNotification = getByUser(getCurrentUser())
 
@@ -40,20 +43,20 @@ class UserNotificationServiceImpl(
 
     @Transactional
     override fun addNotificationToCurrentUser(notificationId: Long): UserNotification {
-        val userNotification = getByUser(getCurrentUser())
-        userNotification.enabledNotifications.add(notificationService.getById(notificationId))
-        return userNotification
+        val notification = notificationService.getById(notificationId)
+        return getCurrentUserNotification().also {
+            it.enabledNotifications.add(notification)
+        }
     }
 
-    override fun deleteNotificationToCurrentUser(notificationId: Long): UserNotification {
-        val userNotification = getByUser(getCurrentUser())
-        userNotification.enabledNotifications.removeIf { it.id == notificationId } // FIXME concurrency
-        return userNotification
-    }
+    @Transactional
+    override fun deleteCurrentUserNotification(notificationId: Long): UserNotification =
+        getCurrentUserNotification().also { userNotification ->
+            userNotification.enabledNotifications.removeIf { it.id == notificationId }
+        }
 
-    private fun getByUser(user: User): UserNotification {
-        return userNotificationRepository.getByUser(user)
-            ?: throw UserNotificationNotFoundException("User notification by user ${user.id} user not found")
-    }
+    private fun getByUser(user: User): UserNotification =
+        userNotificationRepository.getByUser(user)
+            ?: throw UserNotificationNotFoundException("user_notifications.not_found", user.id)
 
 }

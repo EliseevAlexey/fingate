@@ -41,14 +41,14 @@ class AuthServiceImpl(
     }
 
     private fun createSuccessSignUpResponse(): SignUpResponse {
-        val message = messageSource.getMessage("sing-up.response.success", null, Locale.ROOT)
+        val message = messageSource.getMessage("sing_up.response.success", null, Locale.ROOT)
         return SignUpResponse(message)
     }
 
     private fun validate(signUpRequest: SignUpRequest) {
         val email = signUpRequest.email
         if (securityUserRepository.existsByEmail(email)) {
-            throw EmailDuplicateException("sing-up.email.duplicate", email)
+            throw EmailDuplicateException("sing_up.email.duplicate", email)
         }
     }
 

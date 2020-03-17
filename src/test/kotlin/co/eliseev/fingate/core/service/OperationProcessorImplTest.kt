@@ -55,7 +55,7 @@ internal class OperationProcessorImplTest {
             paymentDateTime = LocalDateTime.now(),
             withdrawServiceName = "testWithdrawServiceName"
         )
-        operationProcessor.processAndChangeStatus(operation)
+        operationProcessor.process(operation)
     }
 
     @Test

@@ -2,4 +2,8 @@ package co.eliseev.fingate.notification.service.exception
 
 import java.lang.RuntimeException
 
-class UserNotificationNotFoundException(message: String) : RuntimeException(message)
+class UserNotificationNotFoundException(
+    val messageCode: String,
+    val param: Any? = null,
+    val params: Array<Any>? = null
+) : RuntimeException()

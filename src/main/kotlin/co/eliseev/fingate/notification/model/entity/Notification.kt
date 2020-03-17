@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = Notification.TABLE_NAME)
-data class Notification(
+class Notification(
 
     @Column(name = "name", unique = true)
     val name: String

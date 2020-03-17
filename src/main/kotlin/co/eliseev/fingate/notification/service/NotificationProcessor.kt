@@ -14,7 +14,7 @@ class NotificationProcessorImpl(
 ) : NotificationProcessor {
 
     override fun process(user: User, eventType: EventType) {
-        val userNotification = userNotificationService.getCurrentUserNotification() // TODO user
+        val userNotification = userNotificationService.getBy(user)
         userNotification.enabledNotifications.forEach {
             // TODO send to different ways
         }

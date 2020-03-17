@@ -1,7 +1,7 @@
 package co.eliseev.fingate.notification.controller
 
 import co.eliseev.fingate.notification.model.converter.toDto
-import co.eliseev.fingate.notification.model.converter.toEntity
+import co.eliseev.fingate.notification.model.converter.toModel
 import co.eliseev.fingate.notification.model.dto.NotificationDto
 import co.eliseev.fingate.notification.service.NotificationService
 import co.eliseev.fingate.security.util.HasAdminOrUserRights
@@ -18,9 +18,11 @@ class NotificationController(private val notificationService: NotificationServic
 
     @PostMapping
     fun create(@RequestBody notificationDto: NotificationDto) =
-        notificationService.create(notificationDto.toEntity())
+        notificationDto.toModel()
+            .let { notificationService.create(it) }
+            .toDto()
 
-    @GetMapping("/all")
+    @GetMapping
     fun getAll(): List<NotificationDto> = notificationService.getAll().toDto()
 
 }

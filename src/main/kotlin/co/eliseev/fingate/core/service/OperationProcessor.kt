@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 
 interface OperationProcessor {
-    fun processAndChangeStatus(operation: Operation, force: Boolean = false)
+    fun process(operation: Operation, force: Boolean = false)
     fun reject(operation: Operation)
 }
 
@@ -22,7 +22,7 @@ class OperationProcessorImpl(
     private val securityService: SecurityService
 ) : OperationProcessor {
 
-    override fun processAndChangeStatus(operation: Operation, force: Boolean) {
+    override fun process(operation: Operation, force: Boolean) {
         validateStatus(operation)
         when (operation.operationType) {
             OperationType.WITHDRAW -> tryToWithdrawAndChangeStatus(operation, force)
@@ -50,21 +50,21 @@ class OperationProcessorImpl(
     }
 
     private fun withdrawAndSetProcessedStatus(operation: Operation) {
-        withdrawAndPublish(operation)
+        withdrawAndNotify(operation)
         setProcessedStatus(operation)
     }
 
     private fun fundAndSetProcessedStatus(operation: Operation) {
-        fundAndPublish(operation)
+        fundAndNotify(operation)
         setProcessedStatus(operation)
     }
 
-    private fun fundAndPublish(operation: Operation) {
+    private fun fundAndNotify(operation: Operation) {
         operation.bankAccount.balance += operation.paymentAmount
         eventPublisher.publishEvent(FundEvent(securityService.getCurrentUser()))
     }
 
-    private fun withdrawAndPublish(operation: Operation) {
+    private fun withdrawAndNotify(operation: Operation) {
         operation.bankAccount.balance -= operation.paymentAmount
         eventPublisher.publishEvent(WithdrawEvent(securityService.getCurrentUser()))
     }
@@ -97,12 +97,12 @@ class OperationProcessorImpl(
     }
 
     private fun rollbackWithdrawAndSetRejectStatus(operation: Operation) {
-        fundAndPublish(operation)
+        fundAndNotify(operation)
         setRejectStatus(operation)
     }
 
     private fun rollbackFundAndSetRejectedStatus(operation: Operation) {
-        withdrawAndPublish(operation)
+        withdrawAndNotify(operation)
         setRejectStatus(operation)
     }
 

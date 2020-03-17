@@ -1,6 +1,5 @@
 package co.eliseev.fingate.core.service
 
-import co.eliseev.fingate.core.configuration.FREE_ACCOUNT_NUMBER_THRESHOLD
 import co.eliseev.fingate.core.model.entity.BankAccount
 import co.eliseev.fingate.core.model.entity.BankAccountFee
 import co.eliseev.fingate.core.model.entity.CardSystem
@@ -41,7 +40,7 @@ class BankAccountFeeServiceImpl(
 
     private fun getFee(system: CardSystem?, feeFrequency: FeeFrequency?) =
         bankAccountFeeRepository.findByCardSystemAndFeeFrequency(system, feeFrequency)
-            ?: throw BankAccountFeeNotFoundException("bank_account_fee.not_found", arrayOf(system, feeFrequency))
+            ?: throw BankAccountFeeNotFoundException("bank_account_fees.not_found", arrayOf(system, feeFrequency))
 
     override fun getAll(): List<BankAccountFee> = bankAccountFeeRepository.findAll()
 

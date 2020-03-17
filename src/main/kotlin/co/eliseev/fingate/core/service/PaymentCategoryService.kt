@@ -24,16 +24,14 @@ class PaymentCategoryServiceImpl(
     private val paymentCategoryRepository: PaymentCategoryRepository
 ) : PaymentCategoryService {
 
-    override fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory =
-        paymentCategoryModel.toEntity().also {
-            save(it)
-        }
+    override fun create(paymentCategoryModel: PaymentCategoryModel): PaymentCategory = save(paymentCategoryModel)
 
-    private fun save(paymentCategory: PaymentCategory): PaymentCategory =
+    private fun save(paymentCategoryModel: PaymentCategoryModel): PaymentCategory =
         try {
-            paymentCategoryRepository.save(paymentCategory)
+            paymentCategoryModel.toEntity()
+                .let { paymentCategoryRepository.save(it) }
         } catch (e: DataIntegrityViolationException) {
-            throw PaymentCategoryAlreadyExists("payments.create.duplicate", paymentCategory)
+            throw PaymentCategoryAlreadyExists("payment_categories.create.duplicate", paymentCategoryModel)
         }
 
     override fun get(paymentCategoryId: Long): PaymentCategory = getOne(paymentCategoryId)
@@ -53,8 +51,9 @@ class PaymentCategoryServiceImpl(
 
     override fun getAll(): List<PaymentCategory> = paymentCategoryRepository.findAll()
 
-    private fun getOne(paymentCategoryId: Long): PaymentCategory = paymentCategoryRepository.findById(paymentCategoryId)
-        .orElseThrow { PaymentCategoryNotFoundException("payments.not_found", paymentCategoryId) }
+    private fun getOne(paymentCategoryId: Long): PaymentCategory =
+        paymentCategoryRepository.findById(paymentCategoryId)
+            .orElseThrow { PaymentCategoryNotFoundException("payment_categories.not_found", paymentCategoryId) }
 
     companion object {
         private const val FEE_PAYMENT_CATEGORY = "FeeWithdraw"

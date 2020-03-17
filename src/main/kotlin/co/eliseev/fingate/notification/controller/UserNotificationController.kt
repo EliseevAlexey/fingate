@@ -25,7 +25,8 @@ class UserNotificationController(private val userNotificationService: UserNotifi
             .toDto()
 
     @GetMapping
-    fun getCurrentUserNotification(): UserNotificationDto = userNotificationService.getCurrentUserNotification().toDto()
+    fun getCurrentUserNotification(): UserNotificationDto = 
+        userNotificationService.getCurrentUserNotification().toDto()
 
     @PutMapping("/add-notification")
     fun addNotificationToCurrentUser(@RequestParam(name = "notificationId") notificationId: Long): UserNotificationDto =

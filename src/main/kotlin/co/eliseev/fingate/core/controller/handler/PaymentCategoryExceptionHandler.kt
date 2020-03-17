@@ -17,13 +17,15 @@ class PaymentCategoryExceptionHandler(private val exceptionMessageConverter: Exc
     fun handlePaymentCategoryNotFoundException(
         ex: PaymentCategoryNotFoundException,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
     @ExceptionHandler(PaymentCategoryAlreadyExists::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handlePaymentCategoryAlreadyExists(
         ex: PaymentCategoryAlreadyExists,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

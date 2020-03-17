@@ -17,13 +17,15 @@ class OperationProcessorExceptionHandler(private val exceptionMessageConverter: 
     fun handleIllegalOperationStatusException(
         ex: IllegalOperationStatusException,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
     @ExceptionHandler(OperationNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleOperationNotFoundException(
         ex: OperationNotFoundException,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = UserNotification.TABLE_NAME)
-data class UserNotification(
+class UserNotification(
 
     @OneToOne
     val user: User,

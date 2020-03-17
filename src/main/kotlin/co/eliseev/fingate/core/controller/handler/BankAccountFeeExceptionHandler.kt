@@ -16,6 +16,7 @@ class BankAccountFeeExceptionHandler(private val exceptionMessageConverter: Exce
     fun handleBankAccountFeeNotFoundException(
         ex: BankAccountFeeNotFoundException,
         locale: Locale
-    ): RestResponseMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }
