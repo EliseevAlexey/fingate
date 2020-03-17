@@ -8,6 +8,7 @@ class FinGateApplicationTests {
 
     @Test
     fun contextLoads() {
+        // Check application could be launched
     }
 
 }

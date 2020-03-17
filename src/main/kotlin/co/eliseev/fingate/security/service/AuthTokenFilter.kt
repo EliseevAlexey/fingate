@@ -1,5 +1,6 @@
 package co.eliseev.fingate.security.service
 
+import co.eliseev.fingate.security.service.exception.UserByEmailNotFoundException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
@@ -23,10 +24,14 @@ class AuthTokenFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val jwt = parseJwt(request)
-        if (isValid(jwt)) {
-            createAuthentication(jwt!!, request)
-                .also { setToContext(it) }
+        try {
+            val jwt = parseJwt(request)
+            if (isValid(jwt)) {
+                createAuthentication(jwt!!, request)
+                    .also { setToContext(it) }
+            }
+        } catch (ex: UserByEmailNotFoundException) {
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
         }
         filterChain.doFilter(request, response)
     }

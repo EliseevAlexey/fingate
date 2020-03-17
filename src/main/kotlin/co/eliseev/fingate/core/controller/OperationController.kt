@@ -7,7 +7,6 @@ import co.eliseev.fingate.core.model.entity.OperationType
 import co.eliseev.fingate.core.service.OperationService
 import co.eliseev.fingate.security.util.HasAdminOrUserRights
 import co.eliseev.fingate.security.util.HasAdminRights
-import co.eliseev.fingate.security.util.HasUserRights
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

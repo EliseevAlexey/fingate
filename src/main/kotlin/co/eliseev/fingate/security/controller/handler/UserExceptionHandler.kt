@@ -25,6 +25,7 @@ class UserExceptionHandler(private val exceptionMessageConverter: ExceptionMessa
     fun handleUserByEmailNotFoundException(
         ex: UserByEmailNotFoundException,
         locale: Locale
-    ): RestMessagesDto = exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+    ): RestMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
 
 }

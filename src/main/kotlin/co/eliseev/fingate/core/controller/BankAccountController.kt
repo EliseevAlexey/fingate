@@ -5,7 +5,6 @@ import co.eliseev.fingate.core.model.converter.toModel
 import co.eliseev.fingate.core.model.dto.BankAccountDto
 import co.eliseev.fingate.core.service.BankAccountService
 import co.eliseev.fingate.security.util.HasAdminOrUserRights
-import co.eliseev.fingate.security.util.HasUserRights
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

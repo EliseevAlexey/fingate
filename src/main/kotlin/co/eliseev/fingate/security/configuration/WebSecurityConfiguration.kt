@@ -2,8 +2,7 @@ package co.eliseev.fingate.security.configuration
 
 import co.eliseev.fingate.security.service.AuthTokenFilter
 import co.eliseev.fingate.security.service.CustomUserDetailsService
-import co.eliseev.fingate.security.service.CustomUserDetailsServiceImpl
-import co.eliseev.fingate.security.service.JwtEntryPoint
+import co.eliseev.fingate.security.service.UnauthorizedHandler
 import co.eliseev.fingate.security.service.JwtService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,13 +16,15 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfiguration(
     private val customUserDetailsService: CustomUserDetailsService,
-    private val jwtEntryPoint: JwtEntryPoint,
+    private val UnauthorizedHandler: UnauthorizedHandler,
     private val jwtService: JwtService
 ) : WebSecurityConfigurerAdapter() {
 
@@ -33,7 +34,7 @@ class WebSecurityConfiguration(
     override fun configure(http: HttpSecurity) {
         http.headers().frameOptions().disable().and()
             .cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
+            .exceptionHandling().authenticationEntryPoint(UnauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
             .antMatchers("/auth/**", "/h2/**").permitAll()
@@ -52,9 +53,10 @@ class WebSecurityConfiguration(
     }
 
     @Bean
-    fun authenticationJwtTokenFilter() = AuthTokenFilter(
-        jwtService = jwtService,
-        userDetailsService = customUserDetailsService
-    )
+    fun authenticationJwtTokenFilter() =
+        AuthTokenFilter(
+            jwtService = jwtService,
+            userDetailsService = customUserDetailsService
+        )
 
 }

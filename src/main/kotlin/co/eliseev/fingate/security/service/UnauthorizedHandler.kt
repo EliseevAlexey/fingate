@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-interface JwtEntryPoint : AuthenticationEntryPoint {
+interface UnauthorizedHandler : AuthenticationEntryPoint {
     override fun commence(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -16,17 +16,19 @@ interface JwtEntryPoint : AuthenticationEntryPoint {
 }
 
 @Component
-class JwtEntryPointImpl : JwtEntryPoint {
+class UnauthorizedHandlerImpl : UnauthorizedHandler {
+
     override fun commence(
         request: HttpServletRequest,
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
         logger.error("Unauthorized error: ${authException.message}")
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.message)
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(JwtEntryPointImpl::class.java)
+        private val logger = LoggerFactory.getLogger(UnauthorizedHandlerImpl::class.java)
     }
+
 }
