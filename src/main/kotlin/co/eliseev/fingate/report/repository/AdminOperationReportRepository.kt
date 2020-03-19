@@ -9,7 +9,7 @@ interface AdminOperationReportRepository : JpaRepository<Operation, Long> {
     @Query(
         """
             SELECT o
-            FROM co.eliseev.fingate.core.model.entity.Operation o
+            FROM Operation o
             WHERE o.paymentDateTime >= :date
         """
     )

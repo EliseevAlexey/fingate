@@ -24,7 +24,7 @@ interface OperationRepository : JpaRepository<Operation, Long> {
     @Query(
         """
         SELECT o
-        FROM co.eliseev.fingate.core.model.entity.Operation o
+        FROM Operation o
         """
     )
     fun findHistoryData(): List<Operation>

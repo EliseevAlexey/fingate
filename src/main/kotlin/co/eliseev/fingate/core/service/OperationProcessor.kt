@@ -2,7 +2,10 @@ package co.eliseev.fingate.core.service
 
 import co.eliseev.fingate.core.model.entity.Operation
 import co.eliseev.fingate.core.model.entity.OperationStatus
-import co.eliseev.fingate.core.model.entity.OperationType
+import co.eliseev.fingate.core.model.entity.OperationStatus.PROCESSED
+import co.eliseev.fingate.core.model.entity.OperationStatus.REJECTED
+import co.eliseev.fingate.core.model.entity.OperationType.FUNDING
+import co.eliseev.fingate.core.model.entity.OperationType.WITHDRAW
 import co.eliseev.fingate.core.service.exception.IllegalOperationStatusException
 import co.eliseev.fingate.notification.model.event.FundEvent
 import co.eliseev.fingate.notification.model.event.RejectEvent
@@ -25,8 +28,8 @@ class OperationProcessorImpl(
     override fun process(operation: Operation, force: Boolean) {
         validateStatus(operation)
         when (operation.operationType) {
-            OperationType.WITHDRAW -> tryToWithdrawAndChangeStatus(operation, force)
-            OperationType.FUNDING -> fundAndSetProcessedStatus(operation)
+            WITHDRAW -> tryToWithdrawAndChangeStatus(operation, force)
+            FUNDING -> fundAndSetProcessedStatus(operation)
             else -> throw IllegalOperationStatusException("operations.type.not_supported", operation.operationType)
         }
     }
@@ -70,18 +73,18 @@ class OperationProcessorImpl(
     }
 
     private fun setProcessedStatus(operation: Operation) {
-        operation.operationStatus = OperationStatus.PROCESSED
+        operation.operationStatus = PROCESSED
     }
 
     private fun setRejectStatus(operation: Operation) {
-        operation.operationStatus = OperationStatus.REJECTED
+        operation.operationStatus = REJECTED
     }
 
     override fun reject(operation: Operation) {
         validateRollback(operation)
         when (operation.operationType) {
-            OperationType.WITHDRAW -> rollbackWithdrawAndSetRejectStatus(operation)
-            OperationType.FUNDING -> rollbackFundAndSetRejectedStatus(operation)
+            WITHDRAW -> rollbackWithdrawAndSetRejectStatus(operation)
+            FUNDING -> rollbackFundAndSetRejectedStatus(operation)
             else -> throw IllegalOperationStatusException("operations.type.not_supported", operation.operationType)
         }
         eventPublisher.publishEvent(RejectEvent(securityService.getCurrentUser()))
@@ -89,9 +92,9 @@ class OperationProcessorImpl(
 
     private fun validateRollback(operation: Operation) {
         val operationStatus = operation.operationStatus
-        if (operationStatus != OperationStatus.PROCESSED) {
+        if (operationStatus != PROCESSED) {
             throw IllegalOperationStatusException(
-                "operations.rejecting.status.illegal_state", arrayOf(OperationStatus.PROCESSED, operationStatus)
+                "operations.rejecting.status.illegal_state", arrayOf(PROCESSED, operationStatus)
             )
         }
     }
