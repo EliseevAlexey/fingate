@@ -27,8 +27,9 @@ class AuthTokenFilter(
         try {
             val jwt = parseJwt(request)
             if (isValid(jwt)) {
-                createAuthentication(jwt!!, request)
-                    .also { setToContext(it) }
+                createAuthentication(jwt!!, request).also { usernamePasswordAuthenticationToken ->
+                    setToContext(usernamePasswordAuthenticationToken)
+                }
             }
         } catch (ex: UserByEmailNotFoundException) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED

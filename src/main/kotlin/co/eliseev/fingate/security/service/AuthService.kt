@@ -85,9 +85,9 @@ class AuthServiceImpl(
     fun getRole(userRole: UserRole): Role = roleService.getByName(userRole)
 
     override fun signIn(sighInRequest: SignInRequest): SignInResponse {
-        createAuthentication(sighInRequest).let {
-            setToContext(it)
-            return createSingInResponse(it)
+        createAuthentication(sighInRequest).let { authentication ->
+            setToContext(authentication)
+            return createSingInResponse(authentication)
         }
     }
 
