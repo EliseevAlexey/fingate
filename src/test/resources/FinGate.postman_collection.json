@@ -1,0 +1,926 @@
+{
+	"info": {
+		"_postman_id": "c164cf33-2cff-45e3-b44c-8878b97ea20d",
+		"name": "FinGate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "bank account",
+			"item": [
+				{
+					"name": "get all [bank account]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjExODksImV4cCI6MTU4NDU0NzU4OX0.CdI4xtbbfCdXaXQfkRyNKD70lo3qLhmBu4xVUZPsUrHQdg-r3197qdHJkXq2uW7t07RptWvZEVerCOyDvLvuRg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/bank-accounts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bank-accounts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create [bank account]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjQxNjksImV4cCI6MTU4NDU1MDU2OX0.hE84aCWRKAKvjiYeVwrm3jdx1tyy39m4t2Rrst_6gVe77Lux68TLqgHv_fTxTj9cl8umnGhk_ReYGOWwveFN0g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currency\": \"RUB\",\n  \"cardCvvNumber\": 555,\n  \"expirationDateTime\": \"2020-04-12T14:45:33.701Z\",\n  \"feeFrequency\": \"MONTHLY\",\n  \"cardNumber\": 111122223334444,\n  \"cardSystem\": \"MASTER_CARD\",\n  \"cardType\": \"DEBIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/bank-accounts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bank-accounts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete [bank account]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjM5MjcsImV4cCI6MTU4NDU1MDMyN30.-N5PbJwZY9uKmH_jZA4-YfT4oKcNC6EeLzoCmdcxE2FgXWWa_gBNw5WVi6Vr-vlpQHuWFQgYM9aUf5ShYA01ig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Language",
+								"value": "ru",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currency\": \"RUB\",\n  \"cvv\": 555,\n  \"expirationDate\": \"2020-04-12T14:45:33.701Z\",\n  \"feeFrequency\": \"MONTHLY\",\n  \"number\": 111122223334444,\n  \"system\": \"MASTER_CARD\",\n  \"type\": \"DEBIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/bank-accounts/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bank-accounts",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "payment category",
+			"item": [
+				{
+					"name": "get all [payment category]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjExODksImV4cCI6MTU4NDU0NzU4OX0.CdI4xtbbfCdXaXQfkRyNKD70lo3qLhmBu4xVUZPsUrHQdg-r3197qdHJkXq2uW7t07RptWvZEVerCOyDvLvuRg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/payment-categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment-categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create [payment category]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjExODksImV4cCI6MTU4NDU0NzU4OX0.CdI4xtbbfCdXaXQfkRyNKD70lo3qLhmBu4xVUZPsUrHQdg-r3197qdHJkXq2uW7t07RptWvZEVerCOyDvLvuRg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment-categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment-categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete [payment category]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0NjExODksImV4cCI6MTU4NDU0NzU4OX0.CdI4xtbbfCdXaXQfkRyNKD70lo3qLhmBu4xVUZPsUrHQdg-r3197qdHJkXq2uW7t07RptWvZEVerCOyDvLvuRg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/payment-categories/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment-categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "operation",
+			"item": [
+				{
+					"name": "get all by type [operation]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/operations?operationType=WITHDRAW",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operations"
+							],
+							"query": [
+								{
+									"key": "operationType",
+									"value": "FUNDING",
+									"disabled": true
+								},
+								{
+									"key": "operationType",
+									"value": "WITHDRAW"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get history data [operation]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/operations/history?",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operations",
+								"history"
+							],
+							"query": [
+								{
+									"key": "operationType",
+									"value": "WITHDRAW",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create [operation]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountId\": 2,\n  \"operationType\": \"WITHDRAW\",\n  \"paymentCategoryId\": 1,\n  \"paymentAmount\": 100,\n  \"withdrawServiceName\": \"shop\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/operations/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operations",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reject [operation]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/operations/1/reject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operations",
+								"1",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "report",
+			"item": [
+				{
+					"name": "get all YTD [report:ADMIN]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reports/admin/ytd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reports",
+								"admin",
+								"ytd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all YTD [report]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reports/ytd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reports",
+								"ytd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get rejected [report]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reports/rejected",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reports",
+								"rejected"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "check account fees [task]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/fees/check-all-and-withdraw-fee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"fees",
+								"check-all-and-withdraw-fee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check gifts birthday [task]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/gifts//check-birthday-and-fund",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"gifts",
+								"",
+								"check-birthday-and-fund"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "create [notification]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" : \"NEW\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create [notification:CURRENT_USER]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"notificationIds\" : [ 1, 2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notifications/users/current-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notifications",
+								"users",
+								"current-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all [notification]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/notifications/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notifications",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all [notification:CURRENT_USER]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/notifications/users/current-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notifications",
+								"users",
+								"current-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add notification to current user [notification:CURRENT_USER]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/notifications/users/current-user/add-notification?notificationId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notifications",
+								"users",
+								"current-user",
+								"add-notification"
+							],
+							"query": [
+								{
+									"key": "notificationId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "gifts",
+			"item": [
+				{
+					"name": "get all by type [gift]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QucnUiLCJpYXQiOjE1ODQ0Nzk5NDYsImV4cCI6MTU4NDU2NjM0Nn0.eXVA6TXQpp-10Tw9A_ZrHLeFkR275fExJPDz0_vj10dfr64CQaNaeRhuGVv9A28UhxiiQhMGWam36hhjN6vOIQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"type": "text",
+								"value": "ru"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/gifts?giftType=BIRTHDAY",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gifts"
+							],
+							"query": [
+								{
+									"key": "giftType",
+									"value": "BIRTHDAY"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "sigh up [auth]",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "ru",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"test@test.ru\",\n\t\"password\": \"testTest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sigh in [auth]",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"type": "text",
+								"value": "ru"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"test@test.ru\",\n\t\"password\": \"testTest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/sign-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
