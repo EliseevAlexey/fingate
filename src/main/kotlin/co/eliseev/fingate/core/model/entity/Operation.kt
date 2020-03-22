@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = Operation.TABLE_NAME)
+@Table(name = "operations")
 class Operation(
 
     @Column(name = "withdraw_service_name")
@@ -39,8 +39,4 @@ class Operation(
     @ManyToOne
     var user: User? = null
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "operations"
-    }
-}
+) : BaseEntity()

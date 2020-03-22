@@ -8,7 +8,7 @@ import javax.persistence.Enumerated
 import javax.persistence.Table
 
 @Entity
-@Table(name = Gift.TABLE_NAME)
+@Table(name = "gifts")
 class Gift(
 
     @Column(name = "gift_type", unique = true)
@@ -18,8 +18,4 @@ class Gift(
     @Column(name = "value")
     val value: BigDecimal
 
-): BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "gifts"
-    }
-}
+) : BaseEntity()

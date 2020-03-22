@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = BankAccount.TABLE_NAME)
+@Table(name = "bank_accounts")
 class BankAccount(
 
     @ManyToOne
@@ -63,10 +63,4 @@ class BankAccount(
     @Column(name = "last_fee_withdraw_date")
     var lastFeeWithdrawDate: LocalDate? = null
 
-) : BaseEntity() {
-
-    companion object {
-        const val TABLE_NAME = "bank_accounts"
-    }
-
-}
+) : BaseEntity()

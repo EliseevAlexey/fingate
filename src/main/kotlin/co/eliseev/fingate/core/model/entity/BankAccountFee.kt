@@ -8,7 +8,7 @@ import javax.persistence.Enumerated
 import javax.persistence.Table
 
 @Entity
-@Table(name = BankAccountFee.TABLE_NAME)
+@Table(name = "bank_account_fees")
 class BankAccountFee(
 
     @Column(name = "card_system")
@@ -22,10 +22,4 @@ class BankAccountFee(
     @Column(name = "value")
     val value: BigDecimal
 
-) : BaseEntity() {
-
-    companion object {
-        const val TABLE_NAME = "bank_account_fees"
-    }
-
-}
+) : BaseEntity()

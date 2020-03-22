@@ -7,7 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = AuditUserAction.TABLE_NAME)
+@Table(name = "audit_user_actions")
 class AuditUserAction(
 
     @Column(name = "user_id")
@@ -25,8 +25,4 @@ class AuditUserAction(
     @Column(name = "saved_at")
     val savedAt: LocalDateTime
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "audit_user_actions"
-    }
-}
+) : BaseEntity()

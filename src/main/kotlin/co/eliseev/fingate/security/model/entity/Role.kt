@@ -8,15 +8,12 @@ import javax.persistence.Enumerated
 import javax.persistence.Table
 
 @Entity
-@Table(name = Role.TABLE_NAME)
+@Table(name = "roles")
 class Role(
 
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
     var name: UserRole? = null
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "roles"
-    }
-}
+) : BaseEntity()
+

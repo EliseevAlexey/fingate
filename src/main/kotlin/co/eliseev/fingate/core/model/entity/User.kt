@@ -13,7 +13,7 @@ import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = User.TABLE_NAME)
+@Table(name = "users")
 class User(
 
     @Column(name = "email", nullable = false)
@@ -39,19 +39,10 @@ class User(
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = JOIN_TABLE,
-        joinColumns = [JoinColumn(name = JOIN_COLUMN)],
-        inverseJoinColumns = [JoinColumn(name = INVERSE_JOIN_COLUMN)]
+        name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
     var roles: Set<Role> = emptySet()
 
-) : BaseEntity() {
-
-    companion object {
-        const val TABLE_NAME = "users"
-        private const val JOIN_TABLE = "user_roles"
-        private const val JOIN_COLUMN = "user_id"
-        private const val INVERSE_JOIN_COLUMN = "role_id"
-    }
-
-}
+) : BaseEntity()

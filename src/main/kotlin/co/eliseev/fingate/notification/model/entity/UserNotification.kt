@@ -8,7 +8,7 @@ import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = UserNotification.TABLE_NAME)
+@Table(name = "user_notifications")
 class UserNotification(
 
     @OneToOne
@@ -17,8 +17,4 @@ class UserNotification(
     @ManyToMany
     val enabledNotifications: MutableSet<Notification> = mutableSetOf()
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "user_notifications"
-    }
-}
+) : BaseEntity()

@@ -5,14 +5,10 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = PaymentCategory.TABLE_NAME)
+@Table(name = "payment_categories")
 class PaymentCategory(
 
     @Column(name = "name", unique = true)
     val name: String
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "payment_categories"
-    }
-}
+) : BaseEntity()

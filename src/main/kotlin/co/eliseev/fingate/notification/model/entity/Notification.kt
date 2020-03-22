@@ -6,14 +6,10 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = Notification.TABLE_NAME)
+@Table(name = "notifications")
 class Notification(
 
     @Column(name = "name", unique = true)
     val name: String
 
-) : BaseEntity() {
-    companion object {
-        const val TABLE_NAME = "notifications"
-    }
-}
+) : BaseEntity()
