@@ -13,6 +13,7 @@ import co.eliseev.fingate.notification.model.event.WithdrawEvent
 import co.eliseev.fingate.security.service.SecurityService
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 interface OperationProcessor {
     fun process(operation: Operation, force: Boolean = false)
@@ -80,6 +81,7 @@ class OperationProcessorImpl(
         operation.operationStatus = REJECTED
     }
 
+    @Transactional
     override fun reject(operation: Operation) {
         validateRollback(operation)
         when (operation.operationType) {

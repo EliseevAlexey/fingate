@@ -18,9 +18,9 @@ VALUES (true, 'System_Account');
 INSERT INTO bank_accounts (card_issuer_id, card_number, card_expiration_date_time, card_cvv_number, card_type, currency,
                            balance, card_system, is_default_account, registration_date, fee_frequency,
                            bank_account_fee_id, user_id)
-VALUES (1, 111122223334444, '2020-01-12', 555, 'DEBIT', 'USD', 100, 'MASTER_CARD', false, '2020-01-13',
+VALUES (1, '111122223334444', '2020-01-12', 555, 'DEBIT', 'USD', 100, 'MASTER_CARD', false, '2020-01-13',
         'MONTHLY', 1, 1),
-       (1, 5555666677778888, '2020-01-12', 555, 'CREDIT', 'USD', 100, 'MASTER_CARD', false, '2020-01-13',
+       (1, '5555666677778888', '2020-01-12', 555, 'CREDIT', 'USD', 100, 'MASTER_CARD', false, '2020-01-13',
         'YEARLY', 2, 1);
 
 -- Test payment categories

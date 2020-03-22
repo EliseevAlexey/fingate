@@ -49,7 +49,7 @@ internal class BankBankAccountServiceImplTest {
     @Test
     fun testCreate() {
         val accountModel = BankAccountModel(
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             currency = "USD",
             cardCvvNumber = 999,
             cardExpirationDateTime = LocalDateTime.now(),
@@ -139,7 +139,7 @@ internal class BankBankAccountServiceImplTest {
             Clock.fixed(testDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
         private val testUser = User("testEmail", "testPassword").apply { id = 1 }
         private val testAccount = BankAccount(
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             currency = "USD",
             cardCvvNumber = 999,
             cardExpirationDateTime = testDateTime,

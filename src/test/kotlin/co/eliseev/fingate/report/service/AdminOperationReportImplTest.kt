@@ -69,7 +69,7 @@ internal class AdminOperationReportImplTest {
         private val fixedClock =
             Clock.fixed(testDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
         private val testBankAccount = BankAccount(
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             currency = "USD",
             cardCvvNumber = 999,
             cardExpirationDateTime = testDateTime.plusYears(1),

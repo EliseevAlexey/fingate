@@ -47,7 +47,7 @@ internal class BalanceSetterControllerTest {
         val balance = 100.toBigDecimal()
         val account = BankAccount(
             currency = "USD",
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             cardCvvNumber = 999,
             cardExpirationDateTime = LocalDateTime.now().plusYears(1),
             cardSystem = CardSystem.MASTER_CARD,

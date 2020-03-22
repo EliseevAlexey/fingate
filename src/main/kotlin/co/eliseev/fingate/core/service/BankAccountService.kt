@@ -31,6 +31,7 @@ class BankAccountServiceImpl(
     private val clock: Clock
 ) : BankAccountService {
 
+    @Transactional
     override fun create(bankAccountModel: BankAccountModel): BankAccount =
         bankAccountModel.toEntity(getCurrentUser(), getCurrentUser(), getToday()).let { bankAccount ->
             bankAccountFeeService.applyFee(bankAccount)

@@ -37,7 +37,7 @@ class AuthServiceImpl(
     override fun singUp(signUpRequest: SignUpRequest): SignUpResponse {
         validate(signUpRequest)
         saveNewUser(signUpRequest)
-        return createSuccessSignUpResponse()
+        return createSuccessSignUpResponse() // TODO create and return token
     }
 
     private fun createSuccessSignUpResponse(): SignUpResponse {

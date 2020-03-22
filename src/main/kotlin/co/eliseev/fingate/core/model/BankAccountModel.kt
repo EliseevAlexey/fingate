@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 data class BankAccountModel(
     val name: String? = null,
-    val cardNumber: Long? = null,
+    val cardNumber: String? = null,
     val cardIssuer: String? = null,
     val cardExpirationDateTime: LocalDateTime? = null,
     val cardCvvNumber: Int? = null,

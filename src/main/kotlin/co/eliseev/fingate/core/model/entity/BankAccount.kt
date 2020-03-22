@@ -22,7 +22,7 @@ class BankAccount(
     val name: String? = null,
 
     @Column(name = "card_number")
-    val cardNumber: Long? = null,
+    val cardNumber: String? = null,
 
     @Column(name = "card_expiration_date_time")
     val cardExpirationDateTime: LocalDateTime? = null,

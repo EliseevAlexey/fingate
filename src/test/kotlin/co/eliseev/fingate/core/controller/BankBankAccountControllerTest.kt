@@ -56,7 +56,7 @@ internal class BankBankAccountControllerTest {
     @Test
     fun testCreateAccount() {
         val accountDto = BankAccountDto(
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             currency = "USD",
             cardCvvNumber = 999,
             expirationDateTime = LocalDateTime.now(),

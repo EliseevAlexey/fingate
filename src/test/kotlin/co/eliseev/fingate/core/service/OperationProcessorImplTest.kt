@@ -39,7 +39,7 @@ internal class OperationProcessorImplTest {
             cardCvvNumber = 100,
             cardExpirationDateTime = LocalDateTime.now(),
             feeFrequency = FeeFrequency.MONTHLY,
-            cardNumber = 1111222233334444,
+            cardNumber = "0000111122223333",
             cardSystem = CardSystem.MASTER_CARD,
             cardType = CardType.CREDIT,
             registrationDate = LocalDate.now()

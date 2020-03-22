@@ -143,7 +143,7 @@ internal class FeeServiceImplTest {
         lastFeeWithdrawDate: LocalDate,
         bankAccountFee: BankAccountFee
     ) = BankAccount(
-        cardNumber = 9990,
+        cardNumber = "0000111122223333",
         currency = "USD",
         cardCvvNumber = 999,
         cardSystem = CardSystem.MASTER_CARD,
@@ -178,7 +178,7 @@ internal class FeeServiceImplTest {
             cardCvvNumber = 0,
             cardExpirationDateTime = LocalDateTime.now().plusYears(1),
             feeFrequency = FeeFrequency.MONTHLY,
-            cardNumber = 0,
+            cardNumber = "0000111122223333",
             cardSystem = CardSystem.MASTER_CARD,
             cardType = CardType.CREDIT,
             lastFeeWithdrawDate = testDate,

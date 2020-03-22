@@ -2,6 +2,7 @@ package co.eliseev.fingate.security.controller.handler
 
 import co.eliseev.fingate.core.controller.handler.ExceptionMessageConverter
 import co.eliseev.fingate.core.model.dto.RestResponseMessagesDto
+import co.eliseev.fingate.security.model.validator.exception.EmailValidationException
 import co.eliseev.fingate.security.service.exception.EmailDuplicateException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -16,6 +17,14 @@ class AuthExceptionExceptionHandler(private val exceptionMessageConverter: Excep
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleEmailDuplicateException(
         ex: EmailDuplicateException,
+        locale: Locale
+    ): RestResponseMessagesDto =
+        exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)
+
+    @ExceptionHandler(EmailValidationException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleEmailValidationException(
+        ex: EmailValidationException,
         locale: Locale
     ): RestResponseMessagesDto =
         exceptionMessageConverter.createErrorMessage(ex.messageCode, locale, ex.param, ex.params)

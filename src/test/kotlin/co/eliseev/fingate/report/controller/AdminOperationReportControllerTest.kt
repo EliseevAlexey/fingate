@@ -65,7 +65,7 @@ internal class AdminOperationReportControllerTest {
     companion object {
         private const val OPERATION_REPORTS_PATH = "/reports"
         private val testBankAccount = BankAccount(
-            cardNumber = 9990,
+            cardNumber = "0000111122223333",
             currency = "USD",
             cardCvvNumber = 999,
             cardExpirationDateTime = LocalDateTime.now(),

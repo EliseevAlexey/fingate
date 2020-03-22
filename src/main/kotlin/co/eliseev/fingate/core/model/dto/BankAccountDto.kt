@@ -16,7 +16,7 @@ import javax.validation.constraints.Size
 data class BankAccountDto(
     val id: Long? = null,
     val name: String? = null,
-    val cardNumber: Long? = null,
+    @field:Size(min = 16, max = 16) val cardNumber: String? = null,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") val expirationDateTime: LocalDateTime? = null,
     @field:Positive val cardCvvNumber: Int? = null,
     val cardType: CardType? = null,
